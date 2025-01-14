@@ -36322,37 +36322,6 @@ namespace Nikse.SubtitleEdit.Forms
             return true;
         }
 
-        private bool RequireWhisperCpp()
-        {
-            if (!Configuration.IsRunningOnWindows)
-            {
-                return true;
-            }
-
-            var fullPath = Path.Combine(Configuration.DataDirectory, "Whisper", "Cpp", "main.exe");
-            if (!File.Exists(fullPath) || WhisperDownload.IsOld(fullPath, WhisperChoice.Cpp))
-            {
-                if (MessageBox.Show(string.Format(LanguageSettings.Current.Settings.DownloadX, "Whisper.cpp"), "Subtitle Edit", MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
-                {
-                    return false;
-                }
-
-                using (var form = new WhisperDownload(WhisperChoice.Cpp))
-                {
-                    if (form.ShowDialog(this) == DialogResult.OK && File.Exists(fullPath))
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
         private void VideoaudioToTextToolStripMenuItemClick(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(_videoFileName) &&
@@ -36560,15 +36529,6 @@ namespace Nikse.SubtitleEdit.Forms
                 return;
             }
 
-            if (Configuration.Settings.Tools.WhisperChoice == WhisperChoice.Cpp)
-            {
-                if (!RequireWhisperCpp() && Configuration.IsRunningOnWindows)
-                {
-                    Configuration.Settings.Tools.WhisperChoice = WhisperChoice.PurfviewFasterWhisperXxl;
-                }
-            }
-
-            CheckWhisperCpp();
 
             var oldVideoFileName = _videoFileName;
             var isVlc = mediaPlayer.VideoPlayer is LibVlcDynamic;

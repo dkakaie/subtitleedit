@@ -21,18 +21,11 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private readonly List<AudioClipsGet.AudioClip> _audioClips;
         private readonly Form _parentForm;
         private readonly List<string> _filesToDelete;
-        private readonly Regex _timeRegex = new Regex(@"^\[\d\d:\d\d[\.,]\d\d\d --> \d\d:\d\d[\.,]\d\d\d\]", RegexOptions.Compiled);
         private List<ResultText> _resultList;
         private string _languageCode;
         private ConcurrentBag<string> _outputText = new ConcurrentBag<string>();
 
         public Subtitle TranscribedSubtitle { get; private set; }
-
-        public bool UnknownArgument { get; set; }
-        public bool RunningOnCuda { get; set; }
-        public bool IncompleteModel { get; set; }
-        public string IncompleteModelName { get; set; }
-
 
         public WhisperAudioToTextSelectedLines(List<AudioClipsGet.AudioClip> audioClips, Form parentForm)
         {
@@ -49,7 +42,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             labelModel.Text = LanguageSettings.Current.AudioToText.ChooseModel;
             labelChooseLanguage.Text = LanguageSettings.Current.AudioToText.ChooseLanguage;
             linkLabelOpenModelsFolder.Text = LanguageSettings.Current.AudioToText.OpenModelsFolder;
-            checkBoxTranslateToEnglish.Text = LanguageSettings.Current.AudioToText.TranslateToEnglish;
             checkBoxUsePostProcessing.Text = LanguageSettings.Current.AudioToText.UsePostProcessing;
             linkLabelPostProcessingConfigure.Left = checkBoxUsePostProcessing.Right + 1;
             linkLabelPostProcessingConfigure.Text = LanguageSettings.Current.Settings.Title;
@@ -57,20 +49,14 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             buttonCancel.Text = LanguageSettings.Current.General.Cancel;
             groupBoxInputFiles.Text = LanguageSettings.Current.BatchConvert.Input;
             linkLabeWhisperWebSite.Text = LanguageSettings.Current.AudioToText.WhisperWebsite;
-            buttonAdvanced.Text = LanguageSettings.Current.General.Advanced;
             labelAdvanced.Text = Configuration.Settings.Tools.WhisperExtraSettings;
             columnHeaderFileName.Text = LanguageSettings.Current.JoinSubtitles.FileName;
             checkBoxUsePostProcessing.Checked = Configuration.Settings.Tools.VoskPostProcessing;
 
             Init();
 
-            textBoxLog.Visible = false;
-            textBoxLog.Dock = DockStyle.Fill;
-            labelProgress.Text = string.Empty;
-            labelTime.Text = string.Empty;
             listViewInputFiles.Visible = true;
             _audioClips = audioClips;
-            progressBar1.Maximum = 100;
             foreach (var audioClip in audioClips)
             {
                 listViewInputFiles.Items.Add(audioClip.AudioFileName);
@@ -92,7 +78,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         {
             if (comboBoxModels.Items.Count == 0)
             {
-                buttonDownload_Click(null, null);
                 return;
             }
 
@@ -103,19 +88,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
             GenerateBatch();
             TaskbarList.SetProgressState(_parentForm.Handle, TaskbarButtonProgressFlags.NoProgress);
-        }
-
-        private void ShowProgressBar()
-        {
-            progressBar1.Maximum = 100;
-            progressBar1.Value = 0;
-            progressBar1.Visible = true;
-            progressBar1.Refresh();
-            progressBar1.Top = labelProgress.Bottom + 3;
-            if (!textBoxLog.Visible)
-            {
-                progressBar1.BringToFront();
-            }
         }
 
         private void GenerateBatch()
@@ -132,12 +104,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             };
             _outputText.Add("Batch mode");
             timer1.Start();
-            ShowProgressBar();
             foreach (ListViewItem lvi in listViewInputFiles.Items)
             {
-                var pct = _batchFileNumber * 100.0 / listViewInputFiles.Items.Count;
-                progressBar1.Value = (int)Math.Round(pct, MidpointRounding.AwayFromZero);
-                progressBar1.Refresh();
                 _batchFileNumber++;
                 var videoFileName = lvi.Text;
                 listViewInputFiles.SelectedIndices.Clear();
@@ -173,8 +141,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             }
 
             timer1.Stop();
-            progressBar1.Value = 100;
-            labelTime.Text = string.Empty;
             PostFix(postProcessor);
 
             DialogResult = DialogResult.OK;
@@ -188,113 +154,12 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 return new List<ResultText>();
             }
 
-            labelProgress.Text = string.Format(LanguageSettings.Current.AudioToText.TranscribingXOfY, _batchFileNumber, listViewInputFiles.Items.Count);
-            labelProgress.Refresh();
-            Application.DoEvents();
-            _resultList = new List<ResultText>();
-            var process = WhisperAudioToText.GetWhisperProcess(waveFileName, model.Name, _languageCode, checkBoxTranslateToEnglish.Checked, OutputHandler);
-            var sw = Stopwatch.StartNew();
-            _outputText.Add($"Calling whisper ({Configuration.Settings.Tools.WhisperChoice}) with : whisper {process.StartInfo.Arguments}{Environment.NewLine}");
-            buttonCancel.Visible = true;
-            try
-            {
-                process.PriorityClass = ProcessPriorityClass.Normal;
-            }
-            catch
-            {
-                // ignored
-            }
-
-            _cancel = false;
-
-            while (!process.HasExited)
-            {
-                Application.DoEvents();
-                System.Threading.Thread.Sleep(100);
-                WindowsHelper.PreventStandBy();
-
-                if (_cancel)
-                {
-                    process.Kill();
-                    progressBar1.Visible = false;
-                    buttonCancel.Visible = false;
-
-                    if (!textBoxLog.Visible)
-                    {
-                        DialogResult = DialogResult.Cancel;
-                        progressBar1.Hide();
-                    }
-
-                    return null;
-                }
-            }
-
-            _outputText.Add($"Calling whisper ({Configuration.Settings.Tools.WhisperChoice} done in {sw.Elapsed}{Environment.NewLine}");
-
-            for (var i = 0; i < 10; i++)
-            {
-                Application.DoEvents();
-                System.Threading.Thread.Sleep(50);
-            }
-
             if (WhisperAudioToText.GetResultFromSrt(waveFileName, videoFileName, out var resultTexts, _outputText, null))
             {
                 return resultTexts;
             }
 
             return _resultList;
-        }
-
-        private void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
-        {
-            if (string.IsNullOrWhiteSpace(outLine.Data))
-            {
-                return;
-            }
-
-            if (outLine.Data.Contains("not all tensors loaded from model file"))
-            {
-                IncompleteModel = true;
-            }
-
-            if (outLine.Data.Contains("error: unknown argument: ", StringComparison.OrdinalIgnoreCase))
-            {
-                UnknownArgument = true;
-            }
-            else if (outLine.Data.Contains("error: unrecognized argument: ", StringComparison.OrdinalIgnoreCase))
-            {
-                UnknownArgument = true;
-            }
-
-            if (outLine.Data.Contains("running on: CUDA", StringComparison.OrdinalIgnoreCase))
-            {
-                RunningOnCuda = true;
-            }
-
-            _outputText.Add(outLine.Data.Trim() + Environment.NewLine);
-
-            foreach (var line in outLine.Data.SplitToLines())
-            {
-                if (_timeRegex.IsMatch(line))
-                {
-                    var start = line.Substring(1, 10);
-                    var end = line.Substring(14, 10);
-                    var text = line.Remove(0, 25).Trim();
-                    var rt = new ResultText
-                    {
-                        Start = GetSeconds(start),
-                        End = GetSeconds(end),
-                        Text = Utilities.AutoBreakLine(text, _languageCode),
-                    };
-
-                    _resultList.Add(rt);
-                }
-            }
-        }
-
-        private static decimal GetSeconds(string timeCode)
-        {
-            return (decimal)(TimeCode.ParseToMilliseconds(timeCode) / 1000.0);
         }
 
         private void PostFix(AudioToTextPostProcessor postProcessor)
@@ -381,22 +246,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         private void AudioToText_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.F2)
-            {
-                if (textBoxLog.Visible)
-                {
-                    textBoxLog.Visible = false;
-                }
-                else
-                {
-                    UpdateLog();
-                    textBoxLog.Visible = true;
-                    textBoxLog.BringToFront();
-                }
-
-                e.SuppressKeyPress = true;
-            }
-            else if (e.KeyCode == Keys.Escape && buttonGenerate.Enabled)
+            if (e.KeyCode == Keys.Escape && buttonGenerate.Enabled)
             {
                 DialogResult = DialogResult.Cancel;
                 e.SuppressKeyPress = true;
@@ -415,7 +265,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 return;
             }
 
-            textBoxLog.AppendText(string.Join(Environment.NewLine, _outputText) + Environment.NewLine);
             _outputText = new ConcurrentBag<string>();
         }
 
@@ -429,18 +278,9 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             UpdateLog();
         }
 
-        private void buttonDownload_Click(object sender, EventArgs e)
-        {
-            using (var form = new WhisperModelDownload { AutoClose = true })
-            {
-                form.ShowDialog(this);
-                WhisperAudioToText.FillModels(comboBoxModels, form.LastDownloadedModel.Name);
-            }
-        }
-
         private void ShowHideBatchMode()
         {
-            Height = checkBoxUsePostProcessing.Bottom + progressBar1.Height + buttonCancel.Height + 450;
+            Height = checkBoxUsePostProcessing.Bottom + buttonCancel.Height + 450;
             listViewInputFiles.Visible = true;
         }
 
@@ -475,210 +315,12 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 WhisperAudioToText.InitializeLanguageNames(comboBoxLanguages);
                 return;
             }
-
-            checkBoxTranslateToEnglish.Enabled = comboBoxLanguages.Text.ToLowerInvariant() != "english";
-        }
-
-        private void WhisperPhpOriginalChoose()
-        {
-            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.OpenAi;
-
-            if (Configuration.IsRunningOnWindows)
-            {
-                var path = WhisperHelper.GetWhisperFolder();
-                if (string.IsNullOrEmpty(path))
-                {
-                    using (var openFileDialog1 = new OpenFileDialog())
-                    {
-                        openFileDialog1.Title = "Locate whisper.exe (OpenAI Python version)";
-                        openFileDialog1.FileName = string.Empty;
-                        openFileDialog1.Filter = "whisper.exe|whisper.exe";
-
-                        if (openFileDialog1.ShowDialog() != DialogResult.OK || !openFileDialog1.FileName.EndsWith("whisper.exe", StringComparison.OrdinalIgnoreCase))
-                        {
-                            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.Cpp;
-                            comboBoxWhisperEngine.Text = WhisperChoice.Cpp;
-                        }
-                        else
-                        {
-                            Configuration.Settings.Tools.WhisperLocation = openFileDialog1.FileName;
-                        }
-                    }
-                }
-            }
-
-            Init();
-        }
-
-        private void WhisperEngineWhisperX()
-        {
-            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.WhisperX;
-
-            if (Configuration.IsRunningOnWindows)
-            {
-                var path = WhisperHelper.GetWhisperFolder();
-                if (string.IsNullOrEmpty(path))
-                {
-                    using (var openFileDialog1 = new OpenFileDialog())
-                    {
-                        openFileDialog1.Title = "Locate whisperx.exe (Python version)";
-                        openFileDialog1.FileName = string.Empty;
-                        openFileDialog1.Filter = "whisperx.exe|whisperx.exe";
-
-                        if (openFileDialog1.ShowDialog() != DialogResult.OK || !openFileDialog1.FileName.EndsWith("whisperx.exe", StringComparison.OrdinalIgnoreCase))
-                        {
-                            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.Cpp;
-                            comboBoxWhisperEngine.Text = WhisperChoice.Cpp;
-                        }
-                        else
-                        {
-                            Configuration.Settings.Tools.WhisperXLocation = openFileDialog1.FileName;
-                        }
-                    }
-                }
-            }
-
-            Init();
-        }
-
-
-        private void WhisperEngineStableTs()
-        {
-            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.StableTs;
-
-            if (Configuration.IsRunningOnWindows)
-            {
-                var path = WhisperHelper.GetWhisperFolder();
-                if (string.IsNullOrEmpty(path))
-                {
-                    using (var openFileDialog1 = new OpenFileDialog())
-                    {
-                        openFileDialog1.Title = "Locate stable-ts.exe (Python version)";
-                        openFileDialog1.FileName = string.Empty;
-                        openFileDialog1.Filter = "stable-ts.exe|stable-ts.exe";
-
-                        if (openFileDialog1.ShowDialog() != DialogResult.OK
-                            || !openFileDialog1.FileName.EndsWith("stable-ts.exe", StringComparison.OrdinalIgnoreCase))
-                        {
-                            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.Cpp;
-                            comboBoxWhisperEngine.Text = WhisperChoice.Cpp;
-                        }
-                        else
-                        {
-                            Configuration.Settings.Tools.WhisperStableTsLocation = openFileDialog1.FileName;
-                        }
-                    }
-                }
-            }
-
-            Init();
         }
 
         private void removeTemporaryFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Configuration.Settings.Tools.WhisperDeleteTempFiles = !Configuration.Settings.Tools.WhisperDeleteTempFiles;
             removeTemporaryFilesToolStripMenuItem.Checked = Configuration.Settings.Tools.WhisperDeleteTempFiles;
-        }
-
-        private void whisperConstMeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var oldChoice = Configuration.Settings.Tools.WhisperChoice;
-            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.ConstMe;
-            var fileName = WhisperHelper.GetWhisperPathAndFileName();
-            if (!File.Exists(fileName) ||
-                WhisperDownload.IsOld(fileName, WhisperChoice.ConstMe))
-            {
-                Configuration.Settings.Tools.WhisperChoice = oldChoice;
-                if (MessageBox.Show(string.Format(LanguageSettings.Current.Settings.DownloadX, "whisper ConstMe (GPU)"), "Subtitle Edit", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
-                {
-                    using (var downloadForm = new WhisperDownload(WhisperChoice.ConstMe))
-                    {
-                        if (downloadForm.ShowDialog(this) == DialogResult.OK)
-                        {
-                            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.ConstMe;
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            Init();
-        }
-
-        private void WhisperEngineCTranslate2()
-        {
-            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.CTranslate2;
-
-            if (Configuration.IsRunningOnWindows)
-            {
-                var path = WhisperHelper.GetWhisperFolder();
-                if (string.IsNullOrEmpty(path))
-                {
-                    using (var openFileDialog1 = new OpenFileDialog())
-                    {
-                        openFileDialog1.Title = "Locate whisper-ctranslate2.exe (Python version)";
-                        openFileDialog1.FileName = string.Empty;
-                        openFileDialog1.Filter = "whisper-ctranslate2.exe|whisper-ctranslate2.exe";
-
-                        if (openFileDialog1.ShowDialog() != DialogResult.OK || !openFileDialog1.FileName.EndsWith("whisper-ctranslate2.exe", StringComparison.OrdinalIgnoreCase))
-                        {
-                            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.Cpp;
-                            comboBoxWhisperEngine.Text = WhisperChoice.Cpp;
-                        }
-                        else
-                        {
-                            Configuration.Settings.Tools.WhisperCtranslate2Location = openFileDialog1.FileName;
-                        }
-                    }
-                }
-            }
-
-            Init();
-        }
-
-        private void setCPPConstMeModelsFolderToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (var folderBrowserDialog1 = new FolderBrowserDialog())
-            {
-                if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    Configuration.Settings.Tools.WhisperCppModelLocation = folderBrowserDialog1.SelectedPath;
-                }
-            }
-        }
-
-        private void contextMenuStripWhisperAdvanced_Opening(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(Configuration.Settings.Tools.WhisperCppModelLocation) &&
-                Directory.Exists(Configuration.Settings.Tools.WhisperCppModelLocation))
-            {
-                setCPPConstmeModelsFolderToolStripMenuItem.Text = $"Set CPP/Const-me models folder... [{Configuration.Settings.Tools.WhisperCppModelLocation}]";
-            }
-            else
-            {
-                setCPPConstmeModelsFolderToolStripMenuItem.Text = "Set CPP/Const-me models folder...";
-            }
-        }
-
-        private void buttonAdvanced_Click(object sender, EventArgs e)
-        {
-            using (var form = new WhisperAdvanced(comboBoxWhisperEngine.Text))
-            {
-                var res = form.ShowDialog(this);
-                labelAdvanced.Text = Configuration.Settings.Tools.WhisperExtraSettings;
-            }
-        }
-
-        private void linkLabelPostProcessingConfigure_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            WhisperAudioToText.ShowPostProcessingSettings(this);
         }
 
         private void WhisperAudioToTextSelectedLines_Activated(object sender, EventArgs e)

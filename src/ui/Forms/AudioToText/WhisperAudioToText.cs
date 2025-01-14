@@ -1054,15 +1054,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             TaskbarList.SetProgressValue(_parentForm.Handle, p, 100);
         }
 
-        private void buttonDownload_Click(object sender, EventArgs e)
-        {
-            using (var form = new WhisperModelDownload { AutoClose = true })
-            {
-                form.ShowDialog(this);
-                FillModels(comboBoxModels, form.LastDownloadedModel != null ? form.LastDownloadedModel.Name : string.Empty);
-            }
-        }
-
         private void buttonAddFile_Click(object sender, EventArgs e)
         {
             using (var openFileDialog1 = new OpenFileDialog())

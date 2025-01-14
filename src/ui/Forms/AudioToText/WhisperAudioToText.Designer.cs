@@ -171,7 +171,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.buttonDownload.TabIndex = 2;
             this.buttonDownload.Text = "...";
             this.buttonDownload.UseVisualStyleBackColor = true;
-            this.buttonDownload.Click += new System.EventHandler(this.buttonDownload_Click);
             // 
             // linkLabelOpenModelsFolder
             // 
