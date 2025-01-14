@@ -1,5 +1,4 @@
-﻿using Nikse.SubtitleEdit.Core.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -7,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Nikse.SubtitleEdit.Logic.Ocr
 {
@@ -53,6 +51,8 @@ namespace Nikse.SubtitleEdit.Logic.Ocr
 
             process.WaitForExit();
 
+            borderedBitmap.Dispose();
+
             if (process.ExitCode != 0)
             {
                 Error = process.StandardError.ReadToEnd();
@@ -60,6 +60,11 @@ namespace Nikse.SubtitleEdit.Logic.Ocr
             }
 
             File.Delete(tempImage);
+
+            if (_textDetectionResults.Count == 0)
+            { 
+                return string.Empty;
+            }
 
             var result = MakeResult(_textDetectionResults);
             return result;
