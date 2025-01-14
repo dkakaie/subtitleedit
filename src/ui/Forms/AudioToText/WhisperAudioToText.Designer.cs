@@ -37,7 +37,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.labelChooseLanguage = new System.Windows.Forms.Label();
             this.comboBoxLanguages = new Nikse.SubtitleEdit.Controls.NikseComboBox();
             this.buttonDownload = new System.Windows.Forms.Button();
-            this.linkLabelOpenModelsFolder = new System.Windows.Forms.LinkLabel();
             this.labelModel = new System.Windows.Forms.Label();
             this.comboBoxModels = new Nikse.SubtitleEdit.Controls.NikseComboBox();
             this.labelTime = new System.Windows.Forms.Label();
@@ -119,12 +118,11 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.groupBoxModels.Controls.Add(this.labelChooseLanguage);
             this.groupBoxModels.Controls.Add(this.comboBoxLanguages);
             this.groupBoxModels.Controls.Add(this.buttonDownload);
-            this.groupBoxModels.Controls.Add(this.linkLabelOpenModelsFolder);
             this.groupBoxModels.Controls.Add(this.labelModel);
             this.groupBoxModels.Controls.Add(this.comboBoxModels);
-            this.groupBoxModels.Location = new System.Drawing.Point(15, 60);
+            this.groupBoxModels.Location = new System.Drawing.Point(15, 12);
             this.groupBoxModels.Name = "groupBoxModels";
-            this.groupBoxModels.Size = new System.Drawing.Size(711, 82);
+            this.groupBoxModels.Size = new System.Drawing.Size(711, 140);
             this.groupBoxModels.TabIndex = 10;
             this.groupBoxModels.TabStop = false;
             this.groupBoxModels.Text = "Language and models";
@@ -165,28 +163,17 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // buttonDownload
             // 
             this.buttonDownload.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonDownload.Location = new System.Drawing.Point(503, 40);
+            this.buttonDownload.Location = new System.Drawing.Point(255, 100);
             this.buttonDownload.Name = "buttonDownload";
             this.buttonDownload.Size = new System.Drawing.Size(28, 23);
             this.buttonDownload.TabIndex = 2;
             this.buttonDownload.Text = "...";
             this.buttonDownload.UseVisualStyleBackColor = true;
             // 
-            // linkLabelOpenModelsFolder
-            // 
-            this.linkLabelOpenModelsFolder.AutoSize = true;
-            this.linkLabelOpenModelsFolder.Location = new System.Drawing.Point(539, 48);
-            this.linkLabelOpenModelsFolder.Name = "linkLabelOpenModelsFolder";
-            this.linkLabelOpenModelsFolder.Size = new System.Drawing.Size(98, 13);
-            this.linkLabelOpenModelsFolder.TabIndex = 3;
-            this.linkLabelOpenModelsFolder.TabStop = true;
-            this.linkLabelOpenModelsFolder.Text = "Open models folder";
-            this.linkLabelOpenModelsFolder.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelOpenModelFolder_LinkClicked);
-            // 
             // labelModel
             // 
             this.labelModel.AutoSize = true;
-            this.labelModel.Location = new System.Drawing.Point(254, 21);
+            this.labelModel.Location = new System.Drawing.Point(6, 81);
             this.labelModel.Name = "labelModel";
             this.labelModel.Size = new System.Drawing.Size(167, 13);
             this.labelModel.TabIndex = 0;
@@ -205,7 +192,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.comboBoxModels.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxModels.DropDownWidth = 240;
             this.comboBoxModels.FormattingEnabled = true;
-            this.comboBoxModels.Location = new System.Drawing.Point(257, 41);
+            this.comboBoxModels.Location = new System.Drawing.Point(9, 101);
             this.comboBoxModels.MaxLength = 32767;
             this.comboBoxModels.Name = "comboBoxModels";
             this.comboBoxModels.SelectedIndex = -1;
@@ -452,7 +439,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Audio to text";
+            this.Text = "Whisper API";
             this.Activated += new System.EventHandler(this.WhisperAudioToText_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AudioToText_FormClosing);
             this.Load += new System.EventHandler(this.AudioToText_Load);
@@ -477,7 +464,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private System.Windows.Forms.GroupBox groupBoxModels;
         private System.Windows.Forms.Label labelModel;
         private Nikse.SubtitleEdit.Controls.NikseComboBox comboBoxModels;
-        private System.Windows.Forms.LinkLabel linkLabelOpenModelsFolder;
         private System.Windows.Forms.Label labelTime;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.CheckBox checkBoxUsePostProcessing;

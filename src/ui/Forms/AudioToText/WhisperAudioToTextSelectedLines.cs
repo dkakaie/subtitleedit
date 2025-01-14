@@ -5,12 +5,10 @@ using Nikse.SubtitleEdit.Logic;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using MessageBox = Nikse.SubtitleEdit.Forms.SeMsgBox.MessageBox;
+using Whisper.net;
 
 namespace Nikse.SubtitleEdit.Forms.AudioToText
 {
@@ -36,8 +34,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             _parentForm = parentForm;
             _filesToDelete = new List<string>();
 
-            Text = LanguageSettings.Current.AudioToText.Title;
-            labelInfo.Text = LanguageSettings.Current.AudioToText.WhisperInfo;
             groupBoxModels.Text = LanguageSettings.Current.AudioToText.LanguagesAndModels;
             labelModel.Text = LanguageSettings.Current.AudioToText.ChooseModel;
             labelChooseLanguage.Text = LanguageSettings.Current.AudioToText.ChooseLanguage;
@@ -48,8 +44,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             buttonGenerate.Text = LanguageSettings.Current.Watermark.Generate;
             buttonCancel.Text = LanguageSettings.Current.General.Cancel;
             groupBoxInputFiles.Text = LanguageSettings.Current.BatchConvert.Input;
-            linkLabeWhisperWebSite.Text = LanguageSettings.Current.AudioToText.WhisperWebsite;
-            labelAdvanced.Text = Configuration.Settings.Tools.WhisperExtraSettings;
             columnHeaderFileName.Text = LanguageSettings.Current.JoinSubtitles.FileName;
             checkBoxUsePostProcessing.Checked = Configuration.Settings.Tools.VoskPostProcessing;
 
@@ -76,10 +70,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         private void ButtonGenerate_Click(object sender, EventArgs e)
         {
-            if (comboBoxModels.Items.Count == 0)
-            {
-                return;
-            }
+            //if (comboBoxModels.Items.Count == 0)
+            //{
+            //    return;
+            //}
 
             if (listViewInputFiles.Items.Count == 0)
             {
@@ -148,18 +142,26 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         public List<ResultText> TranscribeViaWhisper(string waveFileName, string videoFileName)
         {
-            var model = comboBoxModels.Items[comboBoxModels.SelectedIndex] as WhisperModel;
-            if (model == null)
-            {
-                return new List<ResultText>();
-            }
+            var whisperFactory = WhisperFactory.FromPath(@"E:\lab51\multi@47k.bin");
+            var result = new List<ResultText>();
 
-            if (WhisperAudioToText.GetResultFromSrt(waveFileName, videoFileName, out var resultTexts, _outputText, null))
-            {
-                return resultTexts;
-            }
-
-            return _resultList;
+            var processor = whisperFactory.CreateBuilder()
+                .WithLanguage("fa")
+                .WithMaxLastTextTokens(0)
+                .WithSegmentEventHandler((segment) =>
+                {
+                    result.Add(new ResultText()
+                    {
+                        Confidence = (decimal)segment.Probability,
+                        Start = (decimal)segment.Start.TotalSeconds,
+                        End = (decimal)segment.End.TotalSeconds,
+                        Text = segment.Text
+                    });
+                })
+                .Build();
+            var fileStream = File.OpenRead(waveFileName);
+            processor.Process(fileStream);
+            return result;
         }
 
         private void PostFix(AudioToTextPostProcessor postProcessor)
@@ -224,10 +226,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             }
         }
 
-        private void linkLabelWhisperWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            UiUtil.OpenUrl(WhisperHelper.GetWebSiteUrl());
-        }
 
         private void AudioToText_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -280,7 +278,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         private void ShowHideBatchMode()
         {
-            Height = checkBoxUsePostProcessing.Bottom + buttonCancel.Height + 450;
             listViewInputFiles.Visible = true;
         }
 

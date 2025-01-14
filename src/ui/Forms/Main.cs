@@ -10094,7 +10094,6 @@ namespace Nikse.SubtitleEdit.Forms
 
             using (var form = new WhisperAudioToTextSelectedLines(audioClips, this))
             {
-                CheckWhisperCpp();
                 if (form.ShowDialog(this) == DialogResult.OK)
                 {
                     MakeHistoryForUndo(string.Format(_language.BeforeX, string.Format(LanguageSettings.Current.Main.Menu.Video.VideoAudioToTextX, "Whisper")));

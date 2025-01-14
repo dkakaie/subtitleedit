@@ -31,7 +31,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.components = new System.ComponentModel.Container();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonGenerate = new System.Windows.Forms.Button();
-            this.labelInfo = new System.Windows.Forms.Label();
             this.groupBoxModels = new System.Windows.Forms.GroupBox();
             this.labelChooseLanguage = new System.Windows.Forms.Label();
             this.comboBoxLanguages = new Nikse.SubtitleEdit.Controls.NikseComboBox();
@@ -39,7 +38,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.linkLabelOpenModelsFolder = new System.Windows.Forms.LinkLabel();
             this.labelModel = new System.Windows.Forms.Label();
             this.comboBoxModels = new Nikse.SubtitleEdit.Controls.NikseComboBox();
-            this.linkLabeWhisperWebSite = new System.Windows.Forms.LinkLabel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.checkBoxUsePostProcessing = new System.Windows.Forms.CheckBox();
             this.groupBoxInputFiles = new System.Windows.Forms.GroupBox();
@@ -48,7 +46,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.contextMenuStripWhisperAdvanced = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.setCPPConstmeModelsFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeTemporaryFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.labelAdvanced = new System.Windows.Forms.Label();
             this.linkLabelPostProcessingConfigure = new System.Windows.Forms.LinkLabel();
             this.groupBoxModels.SuspendLayout();
             this.groupBoxInputFiles.SuspendLayout();
@@ -79,15 +76,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.buttonGenerate.Text = "&Generate";
             this.buttonGenerate.UseVisualStyleBackColor = true;
             this.buttonGenerate.Click += new System.EventHandler(this.ButtonGenerate_Click);
-            // 
-            // labelInfo
-            // 
-            this.labelInfo.AutoSize = true;
-            this.labelInfo.Location = new System.Drawing.Point(12, 9);
-            this.labelInfo.Name = "labelInfo";
-            this.labelInfo.Size = new System.Drawing.Size(275, 13);
-            this.labelInfo.TabIndex = 1;
-            this.labelInfo.Text = "Generate text from audio via Whisper speech recognition";
             // 
             // groupBoxModels
             // 
@@ -192,17 +180,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.comboBoxModels.TabIndex = 0;
             this.comboBoxModels.UsePopupWindow = false;
             // 
-            // linkLabeWhisperWebSite
-            // 
-            this.linkLabeWhisperWebSite.AutoSize = true;
-            this.linkLabeWhisperWebSite.Location = new System.Drawing.Point(12, 26);
-            this.linkLabeWhisperWebSite.Name = "linkLabeWhisperWebSite";
-            this.linkLabeWhisperWebSite.Size = new System.Drawing.Size(85, 13);
-            this.linkLabeWhisperWebSite.TabIndex = 0;
-            this.linkLabeWhisperWebSite.TabStop = true;
-            this.linkLabeWhisperWebSite.Text = "Whisper website";
-            this.linkLabeWhisperWebSite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelWhisperWebsite_LinkClicked);
-            // 
             // timer1
             // 
             this.timer1.Interval = 1000;
@@ -274,15 +251,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.removeTemporaryFilesToolStripMenuItem.Text = "Remove temporary files";
             this.removeTemporaryFilesToolStripMenuItem.Click += new System.EventHandler(this.removeTemporaryFilesToolStripMenuItem_Click);
             // 
-            // labelAdvanced
-            // 
-            this.labelAdvanced.AutoSize = true;
-            this.labelAdvanced.Location = new System.Drawing.Point(177, 205);
-            this.labelAdvanced.Name = "labelAdvanced";
-            this.labelAdvanced.Size = new System.Drawing.Size(65, 13);
-            this.labelAdvanced.TabIndex = 31;
-            this.labelAdvanced.Text = "Advanced...";
-            // 
             // linkLabelPostProcessingConfigure
             // 
             this.linkLabelPostProcessingConfigure.AutoSize = true;
@@ -299,12 +267,9 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(709, 494);
             this.Controls.Add(this.linkLabelPostProcessingConfigure);
-            this.Controls.Add(this.labelAdvanced);
             this.Controls.Add(this.groupBoxInputFiles);
             this.Controls.Add(this.checkBoxUsePostProcessing);
-            this.Controls.Add(this.linkLabeWhisperWebSite);
             this.Controls.Add(this.groupBoxModels);
-            this.Controls.Add(this.labelInfo);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonGenerate);
             this.KeyPreview = true;
@@ -313,7 +278,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Audio to text";
+            this.Text = "Whisperer";
             this.Activated += new System.EventHandler(this.WhisperAudioToTextSelectedLines_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AudioToText_FormClosing);
             this.Load += new System.EventHandler(this.AudioToText_Load);
@@ -333,9 +298,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonGenerate;
-        private System.Windows.Forms.Label labelInfo;
         private System.Windows.Forms.GroupBox groupBoxModels;
-        private System.Windows.Forms.LinkLabel linkLabeWhisperWebSite;
         private System.Windows.Forms.Label labelModel;
         private Nikse.SubtitleEdit.Controls.NikseComboBox comboBoxModels;
         private System.Windows.Forms.LinkLabel linkLabelOpenModelsFolder;
@@ -350,7 +313,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private System.Windows.Forms.ContextMenuStrip contextMenuStripWhisperAdvanced;
         private System.Windows.Forms.ToolStripMenuItem removeTemporaryFilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setCPPConstmeModelsFolderToolStripMenuItem;
-        private System.Windows.Forms.Label labelAdvanced;
         private System.Windows.Forms.LinkLabel linkLabelPostProcessingConfigure;
     }
 }

@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Whisper.net;
 using MessageBox = Nikse.SubtitleEdit.Forms.SeMsgBox.MessageBox;
 
 namespace Nikse.SubtitleEdit.Forms.AudioToText
@@ -68,11 +69,9 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             _parentForm = parentForm;
             _wavePeaks = wavePeaks;
 
-            Text = LanguageSettings.Current.AudioToText.Title;
             groupBoxModels.Text = LanguageSettings.Current.AudioToText.LanguagesAndModels;
             labelModel.Text = LanguageSettings.Current.AudioToText.ChooseModel;
             labelChooseLanguage.Text = LanguageSettings.Current.AudioToText.ChooseLanguage;
-            linkLabelOpenModelsFolder.Text = LanguageSettings.Current.AudioToText.OpenModelsFolder;
             checkBoxUsePostProcessing.Text = LanguageSettings.Current.AudioToText.UsePostProcessing;
             linkLabelPostProcessingConfigure.Left = checkBoxUsePostProcessing.Right + 1;
             linkLabelPostProcessingConfigure.Text = LanguageSettings.Current.Settings.Title;
@@ -448,11 +447,28 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         public Subtitle TranscribeViaWhisper(string waveFileName, string videoFileName)
         {
-            _showProgressPct = -1;
-            var model = comboBoxModels.Items[comboBoxModels.SelectedIndex] as WhisperModel;
+            var whisperFactory = WhisperFactory.FromPath(@"E:\lab51\multi@47k.bin");
+            var result = new List<ResultText>();
 
+            var processor = whisperFactory.CreateBuilder()
+                .WithLanguage("fa")
+                .WithMaxLastTextTokens(0)
+                .WithSegmentEventHandler((segment) =>
+                {
+                    result.Add(new ResultText()
+                    {
+                        Confidence = (decimal)segment.Probability,
+                        Start = (decimal)segment.Start.TotalSeconds,
+                        End = (decimal)segment.End.TotalSeconds,
+                        Text = segment.Text
+                    });
+                })
+                .Build();
+            var fileStream = File.OpenRead(waveFileName);
+            processor.Process(fileStream);
+            
             var sub = new Subtitle();
-            sub.Paragraphs.AddRange(_resultList.OrderBy(p => p.Start).Select(p => new Paragraph(p.Text, (double)p.Start * 1000.0, (double)p.End * 1000.0)).ToList());
+            sub.Paragraphs.AddRange(result.OrderBy(p => p.Start).Select(p => new Paragraph(p.Text, (double)p.Start * 1000.0, (double)p.End * 1000.0)).ToList());
             return sub;
         }
 
