@@ -372,7 +372,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.comboBoxWhisperEngine.Size = new System.Drawing.Size(200, 23);
             this.comboBoxWhisperEngine.TabIndex = 28;
             this.comboBoxWhisperEngine.UsePopupWindow = false;
-            this.comboBoxWhisperEngine.SelectedIndexChanged += new System.EventHandler(this.comboBoxWhisperEngine_SelectedIndexChanged);
             // 
             // labelAdvanced
             // 
