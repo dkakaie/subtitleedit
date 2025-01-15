@@ -50,6 +50,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             {
                 listViewInputFiles.Items.Add(audioClip.AudioFileName);
             }
+
+            ButtonGenerate_Click(null, null);
         }
 
         private void Init()

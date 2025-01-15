@@ -28127,6 +28127,7 @@ namespace Nikse.SubtitleEdit.Forms
 
             ShowStatus(string.Format(_language.VideoControls.NewTextInsertAtX, newParagraph.StartTime.ToShortString()));
             audioVisualizer.Invalidate();
+            AudioToTextWhisperSelectedLines();
         }
 
         private static bool HasSmallerStartTimes(Subtitle subtitle, int startIndex, double startMs)
