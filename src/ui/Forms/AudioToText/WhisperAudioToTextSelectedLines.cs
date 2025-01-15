@@ -1,6 +1,5 @@
 ﻿using Nikse.SubtitleEdit.Core.AudioToText;
 using Nikse.SubtitleEdit.Core.Common;
-using Nikse.SubtitleEdit.Forms.Options;
 using Nikse.SubtitleEdit.Logic;
 using System;
 using System.Collections.Concurrent;
@@ -29,35 +28,23 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         {
             UiUtil.PreInitialize(this);
             InitializeComponent();
-            UiUtil.FixFonts(this);
-            UiUtil.FixLargeFonts(this, buttonGenerate);
             _parentForm = parentForm;
             _filesToDelete = new List<string>();
-
-            groupBoxModels.Text = LanguageSettings.Current.AudioToText.LanguagesAndModels;
-            labelModel.Text = LanguageSettings.Current.AudioToText.ChooseModel;
-            labelChooseLanguage.Text = LanguageSettings.Current.AudioToText.ChooseLanguage;
-            buttonGenerate.Text = LanguageSettings.Current.Watermark.Generate;
-            buttonCancel.Text = LanguageSettings.Current.General.Cancel;
 
             _audioClips = audioClips;
 
             Init();
-            ButtonGenerate_Click(null, null);
+            RunInference();
         }
 
         private void Init()
         {
-            WhisperAudioToText.InitializeLanguageNames(comboBoxLanguages);
-
-            WhisperAudioToText.FillModels(comboBoxModels, string.Empty);
-
             removeTemporaryFilesToolStripMenuItem.Checked = Configuration.Settings.Tools.WhisperDeleteTempFiles;
 
             ContextMenuStrip = contextMenuStripWhisperAdvanced;
         }
 
-        private async void ButtonGenerate_Click(object sender, EventArgs e)
+        private async void RunInference()
         {
             if (_audioClips.Count == 0)
             {
@@ -70,19 +57,13 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         private async Task GenerateBatch()
         {
-            _languageCode = WhisperAudioToText.GetLanguage(comboBoxLanguages.Text);
-            comboBoxLanguages.Enabled = false;
-            comboBoxModels.Enabled = false;
+            _languageCode = "fa";
             _batchFileNumber = 0;
             _outputText.Add("Batch mode");
             timer1.Start();
             foreach (var lvi in _audioClips)
             {
                 _batchFileNumber++;
-
-                buttonGenerate.Enabled = false;
-                comboBoxModels.Enabled = false;
-                comboBoxLanguages.Enabled = false;
 
                 _outputText.Add(string.Empty);
                 var transcript = await TranscribeViaWhisper(lvi.AudioFileName, _languageCode);
@@ -151,37 +132,14 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             }
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
-        {
-            if (buttonGenerate.Enabled)
-            {
-                DialogResult = DialogResult.Cancel;
-            }
-            else
-            {
-                _cancel = true;
-            }
-        }
-
-
         private void AudioToText_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (comboBoxModels.SelectedItem is WhisperModel model)
-            {
-                Configuration.Settings.Tools.WhisperModel = model.Name;
-            }
-
-            if (comboBoxLanguages.SelectedItem is WhisperLanguage language)
-            {
-                Configuration.Settings.Tools.WhisperLanguageCode = language.Code;
-            }
-
             WhisperAudioToText.DeleteTemporaryFiles(_filesToDelete);
         }
 
         private void AudioToText_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Escape && buttonGenerate.Enabled)
+            if (e.KeyCode == Keys.Escape)
             {
                 DialogResult = DialogResult.Cancel;
                 e.SuppressKeyPress = true;
@@ -206,28 +164,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private void timer1_Tick(object sender, EventArgs e)
         {
             UpdateLog();
-        }
-
-        private void AudioToTextSelectedLines_Shown(object sender, EventArgs e)
-        {
-            buttonGenerate.Focus();
-        }
-
-        private void comboBoxLanguages_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBoxLanguages.SelectedIndex > 0 && comboBoxLanguages.Text == LanguageSettings.Current.General.ChangeLanguageFilter)
-            {
-                using (var form = new DefaultLanguagesChooser(Configuration.Settings.General.DefaultLanguages))
-                {
-                    if (form.ShowDialog(this) == DialogResult.OK)
-                    {
-                        Configuration.Settings.General.DefaultLanguages = form.DefaultLanguages;
-                    }
-                }
-
-                WhisperAudioToText.InitializeLanguageNames(comboBoxLanguages);
-                return;
-            }
         }
 
         private void removeTemporaryFilesToolStripMenuItem_Click(object sender, EventArgs e)
