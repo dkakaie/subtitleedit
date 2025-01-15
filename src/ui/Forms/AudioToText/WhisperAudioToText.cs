@@ -15,8 +15,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using Whisper.net;
 using MessageBox = Nikse.SubtitleEdit.Forms.SeMsgBox.MessageBox;
 
 namespace Nikse.SubtitleEdit.Forms.AudioToText
@@ -56,7 +56,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private static bool? CudaSomeDevice { get; set; }
 
         public Subtitle TranscribedSubtitle { get; private set; }
-
+        private WhisperAPITools _whisperApi = new WhisperAPITools();
         public WhisperAudioToText(string videoFileName, Subtitle subtitle, int audioTrackNumber, Form parentForm, WavePeakData wavePeaks)
         {
             UiUtil.PreInitialize(this);
@@ -288,7 +288,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             }
         }
 
-        private void ButtonGenerate_Click(object sender, EventArgs e)
+        private async void ButtonGenerate_Click(object sender, EventArgs e)
         {
             _languageCode = GetLanguage(comboBoxLanguages.Text);
             _useCenterChannelOnly = Configuration.Settings.General.FFmpegUseCenterChannelOnly &&
@@ -304,7 +304,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
             var waveFileName = GenerateWavFile(_videoFileName, _audioTrackNumber);
             
-            var transcript = TranscribeViaWhisper(waveFileName, _videoFileName);
+            await TranscribeViaWhisper(waveFileName, _videoFileName, language:_languageCode);
             DialogResult = DialogResult.OK;
         }
 
@@ -445,28 +445,34 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             return language != null ? language.Code : "en";
         }
 
-        public Subtitle TranscribeViaWhisper(string waveFileName, string videoFileName)
+        public async Task<Subtitle> TranscribeViaWhisper(string waveFileName, string videoFileName, string language)
         {
-            var whisperFactory = WhisperFactory.FromPath(@"E:\lab51\multi@47k.bin");
             var result = new List<ResultText>();
-
-            var processor = whisperFactory.CreateBuilder()
-                .WithLanguage("fa")
-                .WithMaxLastTextTokens(0)
-                .WithSegmentEventHandler((segment) =>
+            var response = await _whisperApi.SendAudioFile(waveFileName, language);
+            foreach (var item in response)
+            {
+                result.Add(new ResultText()
                 {
-                    result.Add(new ResultText()
-                    {
-                        Confidence = (decimal)segment.Probability,
-                        Start = (decimal)segment.Start.TotalSeconds,
-                        End = (decimal)segment.End.TotalSeconds,
-                        Text = segment.Text
-                    });
-                })
-                .Build();
-            var fileStream = File.OpenRead(waveFileName);
-            processor.Process(fileStream);
-            
+                    Confidence = (decimal)item.Score,
+                    Start = (decimal)item.End,
+                    End = (decimal)item.End,
+                    Text = item.Text
+                });
+            }
+
+            TranscribedSubtitle = new Subtitle();
+            foreach (var x in response)
+            {
+                TranscribedSubtitle.Paragraphs.Add(new Paragraph()
+                {
+                    Text = x.Text,
+                    StartTime = TimeCode.FromSeconds((double)x.Start),
+                    EndTime = TimeCode.FromSeconds((double)x.End)
+                });
+            }
+
+            return TranscribedSubtitle;
+
             var sub = new Subtitle();
             sub.Paragraphs.AddRange(result.OrderBy(p => p.Start).Select(p => new Paragraph(p.Text, (double)p.Start * 1000.0, (double)p.End * 1000.0)).ToList());
             return sub;
@@ -1114,7 +1120,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             if (_batchMode)
             {
                 groupBoxInputFiles.Enabled = true;
-                Height = checkBoxUsePostProcessing.Bottom + progressBar1.Height + buttonCancel.Height + 470;
                 listViewInputFiles.Visible = true;
                 buttonBatchMode.Text = LanguageSettings.Current.Split.Basic;
                 MinimumSize = new Size(MinimumSize.Width, Height - 75);
@@ -1127,7 +1132,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 groupBoxInputFiles.Enabled = false;
                 var h = checkBoxUsePostProcessing.Bottom + progressBar1.Height + buttonCancel.Height + 110;
                 MinimumSize = new Size(MinimumSize.Width, h - 10);
-                Height = h;
                 Width = _initialWidth;
                 listViewInputFiles.Visible = false;
                 buttonBatchMode.Text = LanguageSettings.Current.AudioToText.BatchMode;

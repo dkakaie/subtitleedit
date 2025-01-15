@@ -33,20 +33,16 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.buttonGenerate = new System.Windows.Forms.Button();
             this.groupBoxModels = new System.Windows.Forms.GroupBox();
             this.labelChooseLanguage = new System.Windows.Forms.Label();
-            this.comboBoxLanguages = new Nikse.SubtitleEdit.Controls.NikseComboBox();
-            this.buttonDownload = new System.Windows.Forms.Button();
-            this.linkLabelOpenModelsFolder = new System.Windows.Forms.LinkLabel();
             this.labelModel = new System.Windows.Forms.Label();
-            this.comboBoxModels = new Nikse.SubtitleEdit.Controls.NikseComboBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.checkBoxUsePostProcessing = new System.Windows.Forms.CheckBox();
             this.groupBoxInputFiles = new System.Windows.Forms.GroupBox();
             this.listViewInputFiles = new System.Windows.Forms.ListView();
             this.columnHeaderFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStripWhisperAdvanced = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.setCPPConstmeModelsFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeTemporaryFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.linkLabelPostProcessingConfigure = new System.Windows.Forms.LinkLabel();
+            this.comboBoxLanguages = new Nikse.SubtitleEdit.Controls.NikseComboBox();
+            this.comboBoxModels = new Nikse.SubtitleEdit.Controls.NikseComboBox();
             this.groupBoxModels.SuspendLayout();
             this.groupBoxInputFiles.SuspendLayout();
             this.contextMenuStripWhisperAdvanced.SuspendLayout();
@@ -83,8 +79,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxModels.Controls.Add(this.labelChooseLanguage);
             this.groupBoxModels.Controls.Add(this.comboBoxLanguages);
-            this.groupBoxModels.Controls.Add(this.buttonDownload);
-            this.groupBoxModels.Controls.Add(this.linkLabelOpenModelsFolder);
             this.groupBoxModels.Controls.Add(this.labelModel);
             this.groupBoxModels.Controls.Add(this.comboBoxModels);
             this.groupBoxModels.Location = new System.Drawing.Point(15, 60);
@@ -103,51 +97,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.labelChooseLanguage.TabIndex = 6;
             this.labelChooseLanguage.Text = "Choose language";
             // 
-            // comboBoxLanguages
-            // 
-            this.comboBoxLanguages.BackColor = System.Drawing.SystemColors.Window;
-            this.comboBoxLanguages.BackColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.comboBoxLanguages.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-            this.comboBoxLanguages.BorderColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
-            this.comboBoxLanguages.ButtonForeColor = System.Drawing.SystemColors.ControlText;
-            this.comboBoxLanguages.ButtonForeColorDown = System.Drawing.Color.Orange;
-            this.comboBoxLanguages.ButtonForeColorOver = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(215)))));
-            this.comboBoxLanguages.DropDownHeight = 400;
-            this.comboBoxLanguages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxLanguages.DropDownWidth = 194;
-            this.comboBoxLanguages.FormattingEnabled = true;
-            this.comboBoxLanguages.Location = new System.Drawing.Point(6, 41);
-            this.comboBoxLanguages.MaxLength = 32767;
-            this.comboBoxLanguages.Name = "comboBoxLanguages";
-            this.comboBoxLanguages.SelectedIndex = -1;
-            this.comboBoxLanguages.SelectedItem = null;
-            this.comboBoxLanguages.SelectedText = "";
-            this.comboBoxLanguages.Size = new System.Drawing.Size(194, 24);
-            this.comboBoxLanguages.TabIndex = 7;
-            this.comboBoxLanguages.UsePopupWindow = false;
-            this.comboBoxLanguages.SelectedIndexChanged += new System.EventHandler(this.comboBoxLanguages_SelectedIndexChanged);
-            // 
-            // buttonDownload
-            // 
-            this.buttonDownload.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonDownload.Location = new System.Drawing.Point(503, 40);
-            this.buttonDownload.Name = "buttonDownload";
-            this.buttonDownload.Size = new System.Drawing.Size(28, 23);
-            this.buttonDownload.TabIndex = 1;
-            this.buttonDownload.Text = "...";
-            this.buttonDownload.UseVisualStyleBackColor = true;
-            // 
-            // linkLabelOpenModelsFolder
-            // 
-            this.linkLabelOpenModelsFolder.AutoSize = true;
-            this.linkLabelOpenModelsFolder.Location = new System.Drawing.Point(539, 48);
-            this.linkLabelOpenModelsFolder.Name = "linkLabelOpenModelsFolder";
-            this.linkLabelOpenModelsFolder.Size = new System.Drawing.Size(98, 13);
-            this.linkLabelOpenModelsFolder.TabIndex = 2;
-            this.linkLabelOpenModelsFolder.TabStop = true;
-            this.linkLabelOpenModelsFolder.Text = "Open models folder";
-            this.linkLabelOpenModelsFolder.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelOpenModelFolder_LinkClicked);
-            // 
             // labelModel
             // 
             this.labelModel.AutoSize = true;
@@ -157,43 +106,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.labelModel.TabIndex = 0;
             this.labelModel.Text = "Choose speech recognition model";
             // 
-            // comboBoxModels
-            // 
-            this.comboBoxModels.BackColor = System.Drawing.SystemColors.Window;
-            this.comboBoxModels.BackColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.comboBoxModels.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-            this.comboBoxModels.BorderColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
-            this.comboBoxModels.ButtonForeColor = System.Drawing.SystemColors.ControlText;
-            this.comboBoxModels.ButtonForeColorDown = System.Drawing.Color.Orange;
-            this.comboBoxModels.ButtonForeColorOver = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(215)))));
-            this.comboBoxModels.DropDownHeight = 400;
-            this.comboBoxModels.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxModels.DropDownWidth = 240;
-            this.comboBoxModels.FormattingEnabled = true;
-            this.comboBoxModels.Location = new System.Drawing.Point(257, 41);
-            this.comboBoxModels.MaxLength = 32767;
-            this.comboBoxModels.Name = "comboBoxModels";
-            this.comboBoxModels.SelectedIndex = -1;
-            this.comboBoxModels.SelectedItem = null;
-            this.comboBoxModels.SelectedText = "";
-            this.comboBoxModels.Size = new System.Drawing.Size(240, 24);
-            this.comboBoxModels.TabIndex = 0;
-            this.comboBoxModels.UsePopupWindow = false;
-            // 
             // timer1
             // 
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // checkBoxUsePostProcessing
-            // 
-            this.checkBoxUsePostProcessing.AutoSize = true;
-            this.checkBoxUsePostProcessing.Location = new System.Drawing.Point(15, 172);
-            this.checkBoxUsePostProcessing.Name = "checkBoxUsePostProcessing";
-            this.checkBoxUsePostProcessing.Size = new System.Drawing.Size(312, 17);
-            this.checkBoxUsePostProcessing.TabIndex = 2;
-            this.checkBoxUsePostProcessing.Text = "Use post-processing (line merge, fix casing, and punctuation)";
-            this.checkBoxUsePostProcessing.UseVisualStyleBackColor = true;
             // 
             // groupBoxInputFiles
             // 
@@ -251,24 +167,59 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.removeTemporaryFilesToolStripMenuItem.Text = "Remove temporary files";
             this.removeTemporaryFilesToolStripMenuItem.Click += new System.EventHandler(this.removeTemporaryFilesToolStripMenuItem_Click);
             // 
-            // linkLabelPostProcessingConfigure
+            // comboBoxLanguages
             // 
-            this.linkLabelPostProcessingConfigure.AutoSize = true;
-            this.linkLabelPostProcessingConfigure.Location = new System.Drawing.Point(333, 173);
-            this.linkLabelPostProcessingConfigure.Name = "linkLabelPostProcessingConfigure";
-            this.linkLabelPostProcessingConfigure.Size = new System.Drawing.Size(45, 13);
-            this.linkLabelPostProcessingConfigure.TabIndex = 32;
-            this.linkLabelPostProcessingConfigure.TabStop = true;
-            this.linkLabelPostProcessingConfigure.Text = "Settings";
+            this.comboBoxLanguages.BackColor = System.Drawing.SystemColors.Window;
+            this.comboBoxLanguages.BackColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.comboBoxLanguages.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+            this.comboBoxLanguages.BorderColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
+            this.comboBoxLanguages.ButtonForeColor = System.Drawing.SystemColors.ControlText;
+            this.comboBoxLanguages.ButtonForeColorDown = System.Drawing.Color.Orange;
+            this.comboBoxLanguages.ButtonForeColorOver = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(215)))));
+            this.comboBoxLanguages.DropDownHeight = 400;
+            this.comboBoxLanguages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxLanguages.DropDownWidth = 194;
+            this.comboBoxLanguages.FormattingEnabled = true;
+            this.comboBoxLanguages.Location = new System.Drawing.Point(6, 41);
+            this.comboBoxLanguages.MaxLength = 32767;
+            this.comboBoxLanguages.Name = "comboBoxLanguages";
+            this.comboBoxLanguages.SelectedIndex = -1;
+            this.comboBoxLanguages.SelectedItem = null;
+            this.comboBoxLanguages.SelectedText = "";
+            this.comboBoxLanguages.Size = new System.Drawing.Size(194, 24);
+            this.comboBoxLanguages.TabIndex = 7;
+            this.comboBoxLanguages.UsePopupWindow = false;
+            this.comboBoxLanguages.SelectedIndexChanged += new System.EventHandler(this.comboBoxLanguages_SelectedIndexChanged);
+            // 
+            // comboBoxModels
+            // 
+            this.comboBoxModels.BackColor = System.Drawing.SystemColors.Window;
+            this.comboBoxModels.BackColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.comboBoxModels.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+            this.comboBoxModels.BorderColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
+            this.comboBoxModels.ButtonForeColor = System.Drawing.SystemColors.ControlText;
+            this.comboBoxModels.ButtonForeColorDown = System.Drawing.Color.Orange;
+            this.comboBoxModels.ButtonForeColorOver = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(215)))));
+            this.comboBoxModels.DropDownHeight = 400;
+            this.comboBoxModels.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxModels.DropDownWidth = 240;
+            this.comboBoxModels.FormattingEnabled = true;
+            this.comboBoxModels.Location = new System.Drawing.Point(257, 41);
+            this.comboBoxModels.MaxLength = 32767;
+            this.comboBoxModels.Name = "comboBoxModels";
+            this.comboBoxModels.SelectedIndex = -1;
+            this.comboBoxModels.SelectedItem = null;
+            this.comboBoxModels.SelectedText = "";
+            this.comboBoxModels.Size = new System.Drawing.Size(240, 24);
+            this.comboBoxModels.TabIndex = 0;
+            this.comboBoxModels.UsePopupWindow = false;
             // 
             // WhisperAudioToTextSelectedLines
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(709, 494);
-            this.Controls.Add(this.linkLabelPostProcessingConfigure);
             this.Controls.Add(this.groupBoxInputFiles);
-            this.Controls.Add(this.checkBoxUsePostProcessing);
             this.Controls.Add(this.groupBoxModels);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonGenerate);
@@ -290,7 +241,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.groupBoxInputFiles.ResumeLayout(false);
             this.contextMenuStripWhisperAdvanced.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -301,10 +251,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private System.Windows.Forms.GroupBox groupBoxModels;
         private System.Windows.Forms.Label labelModel;
         private Nikse.SubtitleEdit.Controls.NikseComboBox comboBoxModels;
-        private System.Windows.Forms.LinkLabel linkLabelOpenModelsFolder;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.CheckBox checkBoxUsePostProcessing;
-        private System.Windows.Forms.Button buttonDownload;
         private System.Windows.Forms.GroupBox groupBoxInputFiles;
         private System.Windows.Forms.ListView listViewInputFiles;
         private System.Windows.Forms.ColumnHeader columnHeaderFileName;
@@ -313,6 +260,5 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private System.Windows.Forms.ContextMenuStrip contextMenuStripWhisperAdvanced;
         private System.Windows.Forms.ToolStripMenuItem removeTemporaryFilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setCPPConstmeModelsFolderToolStripMenuItem;
-        private System.Windows.Forms.LinkLabel linkLabelPostProcessingConfigure;
     }
 }

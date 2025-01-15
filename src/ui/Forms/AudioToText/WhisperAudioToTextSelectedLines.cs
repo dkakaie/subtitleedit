@@ -7,8 +7,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using Whisper.net;
 
 namespace Nikse.SubtitleEdit.Forms.AudioToText
 {
@@ -19,9 +19,9 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private readonly List<AudioClipsGet.AudioClip> _audioClips;
         private readonly Form _parentForm;
         private readonly List<string> _filesToDelete;
-        private List<ResultText> _resultList;
         private string _languageCode;
         private ConcurrentBag<string> _outputText = new ConcurrentBag<string>();
+        private WhisperAPITools _whisperApi = new WhisperAPITools();
 
         public Subtitle TranscribedSubtitle { get; private set; }
 
@@ -37,15 +37,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             groupBoxModels.Text = LanguageSettings.Current.AudioToText.LanguagesAndModels;
             labelModel.Text = LanguageSettings.Current.AudioToText.ChooseModel;
             labelChooseLanguage.Text = LanguageSettings.Current.AudioToText.ChooseLanguage;
-            linkLabelOpenModelsFolder.Text = LanguageSettings.Current.AudioToText.OpenModelsFolder;
-            checkBoxUsePostProcessing.Text = LanguageSettings.Current.AudioToText.UsePostProcessing;
-            linkLabelPostProcessingConfigure.Left = checkBoxUsePostProcessing.Right + 1;
-            linkLabelPostProcessingConfigure.Text = LanguageSettings.Current.Settings.Title;
             buttonGenerate.Text = LanguageSettings.Current.Watermark.Generate;
             buttonCancel.Text = LanguageSettings.Current.General.Cancel;
             groupBoxInputFiles.Text = LanguageSettings.Current.BatchConvert.Input;
             columnHeaderFileName.Text = LanguageSettings.Current.JoinSubtitles.FileName;
-            checkBoxUsePostProcessing.Checked = Configuration.Settings.Tools.VoskPostProcessing;
 
             Init();
 
@@ -68,34 +63,24 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             ContextMenuStrip = contextMenuStripWhisperAdvanced;
         }
 
-        private void ButtonGenerate_Click(object sender, EventArgs e)
+        private async void ButtonGenerate_Click(object sender, EventArgs e)
         {
-            //if (comboBoxModels.Items.Count == 0)
-            //{
-            //    return;
-            //}
-
             if (listViewInputFiles.Items.Count == 0)
             {
                 return;
             }
 
-            GenerateBatch();
+            await GenerateBatch();
             TaskbarList.SetProgressState(_parentForm.Handle, TaskbarButtonProgressFlags.NoProgress);
         }
 
-        private void GenerateBatch()
+        private async Task GenerateBatch()
         {
             _languageCode = WhisperAudioToText.GetLanguage(comboBoxLanguages.Text);
             groupBoxInputFiles.Enabled = false;
             comboBoxLanguages.Enabled = false;
             comboBoxModels.Enabled = false;
-            linkLabelPostProcessingConfigure.Enabled = false;
             _batchFileNumber = 0;
-            var postProcessor = new AudioToTextPostProcessor(_languageCode)
-            {
-                ParagraphMaxChars = Configuration.Settings.General.SubtitleLineMaximumLength * 2,
-            };
             _outputText.Add("Batch mode");
             timer1.Start();
             foreach (ListViewItem lvi in listViewInputFiles.Items)
@@ -105,14 +90,12 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 listViewInputFiles.SelectedIndices.Clear();
                 lvi.Selected = true;
                 buttonGenerate.Enabled = false;
-                buttonDownload.Enabled = false;
                 comboBoxModels.Enabled = false;
-                linkLabelPostProcessingConfigure.Enabled = false;
                 comboBoxLanguages.Enabled = false;
                 var waveFileName = videoFileName;
 
                 _outputText.Add(string.Empty);
-                var transcript = TranscribeViaWhisper(waveFileName, videoFileName);
+                var transcript = await TranscribeViaWhisper(waveFileName, videoFileName, _languageCode);
                 if (_cancel)
                 {
                     TaskbarList.SetProgressState(_parentForm.Handle, TaskbarButtonProgressFlags.NoProgress);
@@ -120,76 +103,41 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                     return;
                 }
 
-                TranscribedSubtitle = postProcessor.Fix(
-                    AudioToTextPostProcessor.Engine.Whisper,
-                    transcript,
-                    checkBoxUsePostProcessing.Checked,
-                    Configuration.Settings.Tools.WhisperPostProcessingAddPeriods,
-                    Configuration.Settings.Tools.WhisperPostProcessingMergeLines,
-                    Configuration.Settings.Tools.WhisperPostProcessingFixCasing,
-                    Configuration.Settings.Tools.WhisperPostProcessingFixShortDuration,
-                    Configuration.Settings.Tools.WhisperPostProcessingSplitLines);
+                TranscribedSubtitle = new Subtitle();
+                foreach (var x in transcript)
+                {
+                    TranscribedSubtitle.Paragraphs.Add(new Paragraph()
+                    {
+                        Text = x.Text,
+                        StartTime = TimeCode.FromSeconds((double)x.Start),
+                        EndTime = TimeCode.FromSeconds((double)x.End)
+                    });
+                }
 
                 SaveToAudioClip(_batchFileNumber - 1);
                 TaskbarList.SetProgressValue(_parentForm.Handle, _batchFileNumber, listViewInputFiles.Items.Count);
             }
 
             timer1.Stop();
-            PostFix(postProcessor);
-
             DialogResult = DialogResult.OK;
         }
 
-        public List<ResultText> TranscribeViaWhisper(string waveFileName, string videoFileName)
+        public async Task<List<ResultText>> TranscribeViaWhisper(string waveFileName, string videoFileName, string language)
         {
-            var whisperFactory = WhisperFactory.FromPath(@"E:\lab51\multi@47k.bin");
             var result = new List<ResultText>();
-
-            var processor = whisperFactory.CreateBuilder()
-                .WithLanguage("fa")
-                .WithMaxLastTextTokens(0)
-                .WithSegmentEventHandler((segment) =>
+            var response =  await _whisperApi.SendAudioFile(waveFileName, language);
+            foreach (var item in response)
+            {
+                result.Add(new ResultText()
                 {
-                    result.Add(new ResultText()
-                    {
-                        Confidence = (decimal)segment.Probability,
-                        Start = (decimal)segment.Start.TotalSeconds,
-                        End = (decimal)segment.End.TotalSeconds,
-                        Text = segment.Text
-                    });
-                })
-                .Build();
-            var fileStream = File.OpenRead(waveFileName);
-            processor.Process(fileStream);
+                    Confidence = (decimal)item.Score,
+                    Start = (decimal)item.End,
+                    End = (decimal)item.End,
+                    Text = item.Text
+                });
+            }
+
             return result;
-        }
-
-        private void PostFix(AudioToTextPostProcessor postProcessor)
-        {
-            var postSub = new Subtitle();
-            foreach (var audioClip in _audioClips)
-            {
-                postSub.Paragraphs.Add(audioClip.Paragraph);
-            }
-
-            var postSubFixed = postProcessor.Fix(
-                postSub,
-                checkBoxUsePostProcessing.Checked,
-                Configuration.Settings.Tools.WhisperPostProcessingAddPeriods,
-                Configuration.Settings.Tools.WhisperPostProcessingMergeLines,
-                Configuration.Settings.Tools.WhisperPostProcessingFixCasing,
-                Configuration.Settings.Tools.WhisperPostProcessingFixShortDuration,
-                Configuration.Settings.Tools.WhisperPostProcessingSplitLines,
-                AudioToTextPostProcessor.Engine.Whisper);
-
-            for (var index = 0; index < _audioClips.Count; index++)
-            {
-                var audioClip = _audioClips[index];
-                if (index < postSubFixed.Paragraphs.Count)
-                {
-                    audioClip.Paragraph.Text = postSubFixed.Paragraphs[index].Text;
-                }
-            }
         }
 
         private void SaveToAudioClip(int index)
@@ -264,11 +212,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             }
 
             _outputText = new ConcurrentBag<string>();
-        }
-
-        private void linkLabelOpenModelFolder_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            UiUtil.OpenFolder(WhisperHelper.GetWhisperModel().ModelFolder);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
