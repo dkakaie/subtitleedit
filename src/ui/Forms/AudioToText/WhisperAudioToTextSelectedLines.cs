@@ -18,7 +18,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private readonly List<AudioClipsGet.AudioClip> _audioClips;
         private readonly Form _parentForm;
         private readonly List<string> _filesToDelete;
-        private string _languageCode;
         private ConcurrentBag<string> _outputText = new ConcurrentBag<string>();
         private WhisperAPITools _whisperApi = new WhisperAPITools();
 
@@ -33,17 +32,9 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
             _audioClips = audioClips;
 
-            Init();
             RunInference();
         }
-
-        private void Init()
-        {
-            removeTemporaryFilesToolStripMenuItem.Checked = Configuration.Settings.Tools.WhisperDeleteTempFiles;
-
-            ContextMenuStrip = contextMenuStripWhisperAdvanced;
-        }
-
+        
         private async void RunInference()
         {
             if (_audioClips.Count == 0)
@@ -57,16 +48,14 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         private async Task GenerateBatch()
         {
-            _languageCode = "fa";
             _batchFileNumber = 0;
             _outputText.Add("Batch mode");
-            timer1.Start();
             foreach (var lvi in _audioClips)
             {
                 _batchFileNumber++;
 
                 _outputText.Add(string.Empty);
-                var transcript = await TranscribeViaWhisper(lvi.AudioFileName, _languageCode);
+                var transcript = await TranscribeViaWhisper(lvi.AudioFileName);
                 if (_cancel)
                 {
                     TaskbarList.SetProgressState(_parentForm.Handle, TaskbarButtonProgressFlags.NoProgress);
@@ -88,14 +77,13 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 TaskbarList.SetProgressValue(_parentForm.Handle, _batchFileNumber, _audioClips.Count);
             }
 
-            timer1.Stop();
             DialogResult = DialogResult.OK;
         }
 
-        public async Task<List<ResultText>> TranscribeViaWhisper(string waveFileName, string language)
+        public async Task<List<ResultText>> TranscribeViaWhisper(string waveFileName)
         {
             var result = new List<ResultText>();
-            var response =  await _whisperApi.SendAudioFile(waveFileName, language);
+            var response =  await _whisperApi.SendAudioFile(waveFileName);
             foreach (var item in response)
             {
                 result.Add(new ResultText()
@@ -151,26 +139,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             }
         }
 
-        private void UpdateLog()
-        {
-            if (_outputText.IsEmpty)
-            {
-                return;
-            }
-
-            _outputText = new ConcurrentBag<string>();
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            UpdateLog();
-        }
-
-        private void removeTemporaryFilesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Configuration.Settings.Tools.WhisperDeleteTempFiles = !Configuration.Settings.Tools.WhisperDeleteTempFiles;
-            removeTemporaryFilesToolStripMenuItem.Checked = Configuration.Settings.Tools.WhisperDeleteTempFiles;
-        }
 
         private void WhisperAudioToTextSelectedLines_Activated(object sender, EventArgs e)
         {

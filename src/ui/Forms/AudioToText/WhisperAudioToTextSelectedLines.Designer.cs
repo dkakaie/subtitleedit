@@ -28,40 +28,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.contextMenuStripWhisperAdvanced = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.setCPPConstmeModelsFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeTemporaryFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
-            this.contextMenuStripWhisperAdvanced.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // contextMenuStripWhisperAdvanced
-            // 
-            this.contextMenuStripWhisperAdvanced.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.setCPPConstmeModelsFolderToolStripMenuItem,
-            this.removeTemporaryFilesToolStripMenuItem});
-            this.contextMenuStripWhisperAdvanced.Name = "contextMenuStripWhisperAdvanced";
-            this.contextMenuStripWhisperAdvanced.Size = new System.Drawing.Size(259, 48);
-            // 
-            // setCPPConstmeModelsFolderToolStripMenuItem
-            // 
-            this.setCPPConstmeModelsFolderToolStripMenuItem.Name = "setCPPConstmeModelsFolderToolStripMenuItem";
-            this.setCPPConstmeModelsFolderToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
-            this.setCPPConstmeModelsFolderToolStripMenuItem.Text = "Set CPP/Const-me models folder...";
-            // 
-            // removeTemporaryFilesToolStripMenuItem
-            // 
-            this.removeTemporaryFilesToolStripMenuItem.Name = "removeTemporaryFilesToolStripMenuItem";
-            this.removeTemporaryFilesToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
-            this.removeTemporaryFilesToolStripMenuItem.Text = "Remove temporary files";
-            this.removeTemporaryFilesToolStripMenuItem.Click += new System.EventHandler(this.removeTemporaryFilesToolStripMenuItem_Click);
             // 
             // label1
             // 
@@ -89,17 +57,12 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.Activated += new System.EventHandler(this.WhisperAudioToTextSelectedLines_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AudioToText_FormClosing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AudioToText_KeyDown);
-            this.contextMenuStripWhisperAdvanced.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripWhisperAdvanced;
-        private System.Windows.Forms.ToolStripMenuItem removeTemporaryFilesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem setCPPConstmeModelsFolderToolStripMenuItem;
         private System.Windows.Forms.Label label1;
     }
 }

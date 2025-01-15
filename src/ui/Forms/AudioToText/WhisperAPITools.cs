@@ -19,7 +19,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
     internal class WhisperAPITools
     {
         private readonly HttpClient client = new HttpClient();
-        public async Task<List<WhisperApiResponse>> SendAudioFile(string filePath, string language)
+        public async Task<List<WhisperApiResponse>> SendAudioFile(string filePath)
         {
             // Create a multipart form-data content
             var formData = new MultipartFormDataContent();
@@ -30,10 +30,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             formData.Add(fileContent, "file", Path.GetFileName(filePath));
 
             // Add the language parameter
-            formData.Add(new StringContent(language), "language");
+            formData.Add(new StringContent(Program.AppSettings.Language), "language");
 
             // Send the POST request
-            var response = await client.PostAsync("http://127.0.0.1:8000/generate-srt", formData);
+            var response = await client.PostAsync(Program.AppSettings.ApiEndpoint, formData);
 
             // Ensure the request was successful
             response.EnsureSuccessStatusCode();

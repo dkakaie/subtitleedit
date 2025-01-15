@@ -1,13 +1,16 @@
 ﻿using Nikse.SubtitleEdit.Forms;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace Nikse.SubtitleEdit
 {
     internal static class Program
     {
+        public static AppSettings AppSettings { get; set; }
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -27,6 +30,13 @@ namespace Nikse.SubtitleEdit
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            // Read the JSON file
+            string json = File.ReadAllText(@"whisperapi.json");
+
+            // Deserialize the JSON into a C# object
+            AppSettings = JsonConvert.DeserializeObject<AppSettings>(json);
+
             Application.Run(new Main());
         }
 
