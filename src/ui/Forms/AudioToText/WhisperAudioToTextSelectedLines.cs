@@ -39,18 +39,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             labelChooseLanguage.Text = LanguageSettings.Current.AudioToText.ChooseLanguage;
             buttonGenerate.Text = LanguageSettings.Current.Watermark.Generate;
             buttonCancel.Text = LanguageSettings.Current.General.Cancel;
-            groupBoxInputFiles.Text = LanguageSettings.Current.BatchConvert.Input;
-            columnHeaderFileName.Text = LanguageSettings.Current.JoinSubtitles.FileName;
+
+            _audioClips = audioClips;
 
             Init();
-
-            listViewInputFiles.Visible = true;
-            _audioClips = audioClips;
-            foreach (var audioClip in audioClips)
-            {
-                listViewInputFiles.Items.Add(audioClip.AudioFileName);
-            }
-
             ButtonGenerate_Click(null, null);
         }
 
@@ -67,7 +59,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         private async void ButtonGenerate_Click(object sender, EventArgs e)
         {
-            if (listViewInputFiles.Items.Count == 0)
+            if (_audioClips.Count == 0)
             {
                 return;
             }
@@ -79,29 +71,24 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private async Task GenerateBatch()
         {
             _languageCode = WhisperAudioToText.GetLanguage(comboBoxLanguages.Text);
-            groupBoxInputFiles.Enabled = false;
             comboBoxLanguages.Enabled = false;
             comboBoxModels.Enabled = false;
             _batchFileNumber = 0;
             _outputText.Add("Batch mode");
             timer1.Start();
-            foreach (ListViewItem lvi in listViewInputFiles.Items)
+            foreach (var lvi in _audioClips)
             {
                 _batchFileNumber++;
-                var videoFileName = lvi.Text;
-                listViewInputFiles.SelectedIndices.Clear();
-                lvi.Selected = true;
+
                 buttonGenerate.Enabled = false;
                 comboBoxModels.Enabled = false;
                 comboBoxLanguages.Enabled = false;
-                var waveFileName = videoFileName;
 
                 _outputText.Add(string.Empty);
-                var transcript = await TranscribeViaWhisper(waveFileName, videoFileName, _languageCode);
+                var transcript = await TranscribeViaWhisper(lvi.AudioFileName, _languageCode);
                 if (_cancel)
                 {
                     TaskbarList.SetProgressState(_parentForm.Handle, TaskbarButtonProgressFlags.NoProgress);
-                    groupBoxInputFiles.Enabled = true;
                     return;
                 }
 
@@ -117,14 +104,14 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 }
 
                 SaveToAudioClip(_batchFileNumber - 1);
-                TaskbarList.SetProgressValue(_parentForm.Handle, _batchFileNumber, listViewInputFiles.Items.Count);
+                TaskbarList.SetProgressValue(_parentForm.Handle, _batchFileNumber, _audioClips.Count);
             }
 
             timer1.Stop();
             DialogResult = DialogResult.OK;
         }
 
-        public async Task<List<ResultText>> TranscribeViaWhisper(string waveFileName, string videoFileName, string language)
+        public async Task<List<ResultText>> TranscribeViaWhisper(string waveFileName, string language)
         {
             var result = new List<ResultText>();
             var response =  await _whisperApi.SendAudioFile(waveFileName, language);
@@ -221,25 +208,9 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             UpdateLog();
         }
 
-        private void ShowHideBatchMode()
-        {
-            listViewInputFiles.Visible = true;
-        }
-
-        private void AudioToText_Load(object sender, EventArgs e)
-        {
-            ShowHideBatchMode();
-            listViewInputFiles.Columns[0].Width = -2;
-        }
-
         private void AudioToTextSelectedLines_Shown(object sender, EventArgs e)
         {
             buttonGenerate.Focus();
-        }
-
-        private void AudioToTextSelectedLines_ResizeEnd(object sender, EventArgs e)
-        {
-            listViewInputFiles.AutoSizeLastColumn();
         }
 
         private void comboBoxLanguages_SelectedIndexChanged(object sender, EventArgs e)

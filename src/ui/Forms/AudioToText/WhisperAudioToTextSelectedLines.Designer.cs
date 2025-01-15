@@ -33,27 +33,23 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.buttonGenerate = new System.Windows.Forms.Button();
             this.groupBoxModels = new System.Windows.Forms.GroupBox();
             this.labelChooseLanguage = new System.Windows.Forms.Label();
+            this.comboBoxLanguages = new Nikse.SubtitleEdit.Controls.NikseComboBox();
             this.labelModel = new System.Windows.Forms.Label();
+            this.comboBoxModels = new Nikse.SubtitleEdit.Controls.NikseComboBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.groupBoxInputFiles = new System.Windows.Forms.GroupBox();
-            this.listViewInputFiles = new System.Windows.Forms.ListView();
-            this.columnHeaderFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStripWhisperAdvanced = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.setCPPConstmeModelsFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeTemporaryFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.comboBoxLanguages = new Nikse.SubtitleEdit.Controls.NikseComboBox();
-            this.comboBoxModels = new Nikse.SubtitleEdit.Controls.NikseComboBox();
             this.groupBoxModels.SuspendLayout();
-            this.groupBoxInputFiles.SuspendLayout();
             this.contextMenuStripWhisperAdvanced.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonCancel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonCancel.Location = new System.Drawing.Point(622, 457);
+            this.buttonCancel.Location = new System.Drawing.Point(623, 168);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 6;
@@ -63,9 +59,9 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // 
             // buttonGenerate
             // 
-            this.buttonGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonGenerate.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.buttonGenerate.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonGenerate.Location = new System.Drawing.Point(491, 457);
+            this.buttonGenerate.Location = new System.Drawing.Point(492, 168);
             this.buttonGenerate.Name = "buttonGenerate";
             this.buttonGenerate.Size = new System.Drawing.Size(125, 23);
             this.buttonGenerate.TabIndex = 5;
@@ -97,76 +93,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.labelChooseLanguage.TabIndex = 6;
             this.labelChooseLanguage.Text = "Choose language";
             // 
-            // labelModel
-            // 
-            this.labelModel.AutoSize = true;
-            this.labelModel.Location = new System.Drawing.Point(254, 21);
-            this.labelModel.Name = "labelModel";
-            this.labelModel.Size = new System.Drawing.Size(167, 13);
-            this.labelModel.TabIndex = 0;
-            this.labelModel.Text = "Choose speech recognition model";
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // groupBoxInputFiles
-            // 
-            this.groupBoxInputFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxInputFiles.Controls.Add(this.listViewInputFiles);
-            this.groupBoxInputFiles.Location = new System.Drawing.Point(15, 236);
-            this.groupBoxInputFiles.Name = "groupBoxInputFiles";
-            this.groupBoxInputFiles.Size = new System.Drawing.Size(682, 188);
-            this.groupBoxInputFiles.TabIndex = 3;
-            this.groupBoxInputFiles.TabStop = false;
-            this.groupBoxInputFiles.Text = "Input files";
-            // 
-            // listViewInputFiles
-            // 
-            this.listViewInputFiles.AllowDrop = true;
-            this.listViewInputFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listViewInputFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeaderFileName});
-            this.listViewInputFiles.FullRowSelect = true;
-            this.listViewInputFiles.HideSelection = false;
-            this.listViewInputFiles.Location = new System.Drawing.Point(6, 18);
-            this.listViewInputFiles.Name = "listViewInputFiles";
-            this.listViewInputFiles.Size = new System.Drawing.Size(670, 153);
-            this.listViewInputFiles.TabIndex = 0;
-            this.listViewInputFiles.UseCompatibleStateImageBehavior = false;
-            this.listViewInputFiles.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeaderFileName
-            // 
-            this.columnHeaderFileName.Text = "File name";
-            this.columnHeaderFileName.Width = 455;
-            // 
-            // contextMenuStripWhisperAdvanced
-            // 
-            this.contextMenuStripWhisperAdvanced.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.setCPPConstmeModelsFolderToolStripMenuItem,
-            this.removeTemporaryFilesToolStripMenuItem});
-            this.contextMenuStripWhisperAdvanced.Name = "contextMenuStripWhisperAdvanced";
-            this.contextMenuStripWhisperAdvanced.Size = new System.Drawing.Size(259, 48);
-            // 
-            // setCPPConstmeModelsFolderToolStripMenuItem
-            // 
-            this.setCPPConstmeModelsFolderToolStripMenuItem.Name = "setCPPConstmeModelsFolderToolStripMenuItem";
-            this.setCPPConstmeModelsFolderToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
-            this.setCPPConstmeModelsFolderToolStripMenuItem.Text = "Set CPP/Const-me models folder...";
-            // 
-            // removeTemporaryFilesToolStripMenuItem
-            // 
-            this.removeTemporaryFilesToolStripMenuItem.Name = "removeTemporaryFilesToolStripMenuItem";
-            this.removeTemporaryFilesToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
-            this.removeTemporaryFilesToolStripMenuItem.Text = "Remove temporary files";
-            this.removeTemporaryFilesToolStripMenuItem.Click += new System.EventHandler(this.removeTemporaryFilesToolStripMenuItem_Click);
-            // 
             // comboBoxLanguages
             // 
             this.comboBoxLanguages.BackColor = System.Drawing.SystemColors.Window;
@@ -191,6 +117,15 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.comboBoxLanguages.UsePopupWindow = false;
             this.comboBoxLanguages.SelectedIndexChanged += new System.EventHandler(this.comboBoxLanguages_SelectedIndexChanged);
             // 
+            // labelModel
+            // 
+            this.labelModel.AutoSize = true;
+            this.labelModel.Location = new System.Drawing.Point(254, 21);
+            this.labelModel.Name = "labelModel";
+            this.labelModel.Size = new System.Drawing.Size(167, 13);
+            this.labelModel.TabIndex = 0;
+            this.labelModel.Text = "Choose speech recognition model";
+            // 
             // comboBoxModels
             // 
             this.comboBoxModels.BackColor = System.Drawing.SystemColors.Window;
@@ -214,17 +149,41 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.comboBoxModels.TabIndex = 0;
             this.comboBoxModels.UsePopupWindow = false;
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // contextMenuStripWhisperAdvanced
+            // 
+            this.contextMenuStripWhisperAdvanced.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.setCPPConstmeModelsFolderToolStripMenuItem,
+            this.removeTemporaryFilesToolStripMenuItem});
+            this.contextMenuStripWhisperAdvanced.Name = "contextMenuStripWhisperAdvanced";
+            this.contextMenuStripWhisperAdvanced.Size = new System.Drawing.Size(259, 48);
+            // 
+            // setCPPConstmeModelsFolderToolStripMenuItem
+            // 
+            this.setCPPConstmeModelsFolderToolStripMenuItem.Name = "setCPPConstmeModelsFolderToolStripMenuItem";
+            this.setCPPConstmeModelsFolderToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.setCPPConstmeModelsFolderToolStripMenuItem.Text = "Set CPP/Const-me models folder...";
+            // 
+            // removeTemporaryFilesToolStripMenuItem
+            // 
+            this.removeTemporaryFilesToolStripMenuItem.Name = "removeTemporaryFilesToolStripMenuItem";
+            this.removeTemporaryFilesToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.removeTemporaryFilesToolStripMenuItem.Text = "Remove temporary files";
+            this.removeTemporaryFilesToolStripMenuItem.Click += new System.EventHandler(this.removeTemporaryFilesToolStripMenuItem_Click);
+            // 
             // WhisperAudioToTextSelectedLines
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(709, 494);
-            this.Controls.Add(this.groupBoxInputFiles);
+            this.ClientSize = new System.Drawing.Size(709, 203);
             this.Controls.Add(this.groupBoxModels);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonGenerate);
             this.KeyPreview = true;
-            this.MinimumSize = new System.Drawing.Size(720, 450);
             this.Name = "WhisperAudioToTextSelectedLines";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
@@ -232,13 +191,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.Text = "Whisperer";
             this.Activated += new System.EventHandler(this.WhisperAudioToTextSelectedLines_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AudioToText_FormClosing);
-            this.Load += new System.EventHandler(this.AudioToText_Load);
             this.Shown += new System.EventHandler(this.AudioToTextSelectedLines_Shown);
-            this.ResizeEnd += new System.EventHandler(this.AudioToTextSelectedLines_ResizeEnd);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AudioToText_KeyDown);
             this.groupBoxModels.ResumeLayout(false);
             this.groupBoxModels.PerformLayout();
-            this.groupBoxInputFiles.ResumeLayout(false);
             this.contextMenuStripWhisperAdvanced.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -252,9 +208,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private System.Windows.Forms.Label labelModel;
         private Nikse.SubtitleEdit.Controls.NikseComboBox comboBoxModels;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.GroupBox groupBoxInputFiles;
-        private System.Windows.Forms.ListView listViewInputFiles;
-        private System.Windows.Forms.ColumnHeader columnHeaderFileName;
         private System.Windows.Forms.Label labelChooseLanguage;
         private Nikse.SubtitleEdit.Controls.NikseComboBox comboBoxLanguages;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripWhisperAdvanced;
