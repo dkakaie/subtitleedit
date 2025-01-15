@@ -24,16 +24,11 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
     public sealed partial class WhisperAudioToText : Form
     {
         private readonly string _videoFileName;
-        private Subtitle _subtitle;
         private readonly int _audioTrackNumber;
         private bool _cancel;
-        private bool _batchMode;
-        private int _batchFileNumber;
         private readonly List<string> _filesToDelete;
         private readonly Form _parentForm;
         private bool _useCenterChannelOnly;
-        private List<ResultText> _resultList;
-        private string _languageCode;
 
         public bool UnknownArgument { get; set; }
         public bool RunningOnCuda { get; set; }
@@ -41,13 +36,12 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         public string IncompleteModelName { get; set; }
 
         public Subtitle TranscribedSubtitle { get; private set; }
-        private WhisperAPITools _whisperApi = new WhisperAPITools();
+        private readonly WhisperAPITools _whisperApi = new WhisperAPITools();
         public WhisperAudioToText(string videoFileName, Subtitle subtitle, int audioTrackNumber, Form parentForm, WavePeakData wavePeaks)
         {
             UiUtil.PreInitialize(this);
             InitializeComponent();
             _videoFileName = videoFileName;
-            _subtitle = subtitle;
             _audioTrackNumber = audioTrackNumber;
             _parentForm = parentForm;
 

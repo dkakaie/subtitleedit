@@ -19,7 +19,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private readonly Form _parentForm;
         private readonly List<string> _filesToDelete;
         private ConcurrentBag<string> _outputText = new ConcurrentBag<string>();
-        private WhisperAPITools _whisperApi = new WhisperAPITools();
+        private readonly WhisperAPITools _whisperApi = new WhisperAPITools();
 
         public Subtitle TranscribedSubtitle { get; private set; }
 
