@@ -30,10 +30,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             formData.Add(fileContent, "file", Path.GetFileName(filePath));
 
             // Add the language parameter
-            formData.Add(new StringContent(Program.AppSettings.Language), "language");
+            //formData.Add(new StringContent(Program.AppSettings.Language), "language");
 
             // Send the POST request
-            var response = await client.PostAsync(Program.AppSettings.ApiEndpoint, formData);
+            var response = await client.PostAsync($@"{Program.AppSettings.ApiEndpoint}?language={Program.AppSettings.Language}", formData);
 
             // Ensure the request was successful
             response.EnsureSuccessStatusCode();
