@@ -1693,6 +1693,7 @@ public static partial class InitListViewAndEditBox
         var bookmarkLabel = new Label
         {
             FontSize = UiUtil.ScaledFontSize(10),
+            [UiUtil.DesignFontSizeProperty] = 10,
             VerticalAlignment = VerticalAlignment.Center,
             DataContext = vm,
             Foreground = new SolidColorBrush(Se.Settings.Appearance.BookmarkColor.FromHexToColor()),
@@ -1740,6 +1741,7 @@ public static partial class InitListViewAndEditBox
             HorizontalAlignment = HorizontalAlignment.Right,
             VerticalAlignment = VerticalAlignment.Bottom,
             FontSize = UiUtil.ScaledFontSize(12),
+            [UiUtil.DesignFontSizeProperty] = 12,
             Padding = new Thickness(2, 2, 2, 2),
         };
         textCharsSecLabel.Bind(TextBlock.TextProperty, new Binding(nameof(vm.EditTextCharactersPerSecond))
@@ -1761,6 +1763,7 @@ public static partial class InitListViewAndEditBox
             HorizontalAlignment = HorizontalAlignment.Right,
             VerticalAlignment = VerticalAlignment.Top,
             FontSize = UiUtil.ScaledFontSize(12),
+            [UiUtil.DesignFontSizeProperty] = 12,
             Padding = new Thickness(2, 2, 2, 2),
         };
         textTotalLengthLabel.Bind(TextBlock.TextProperty, new Binding(nameof(vm.EditTextTotalLength))
@@ -2006,6 +2009,7 @@ public static partial class InitListViewAndEditBox
             HorizontalAlignment = HorizontalAlignment.Right,
             VerticalAlignment = VerticalAlignment.Bottom,
             FontSize = UiUtil.ScaledFontSize(12),
+            [UiUtil.DesignFontSizeProperty] = 12,
             Padding = new Thickness(2, 2, 2, 2),
         };
         textCharsSecLabelOriginal.Bind(TextBlock.TextProperty, new Binding(nameof(vm.EditTextCharactersPerSecondOriginal))
@@ -2039,6 +2043,7 @@ public static partial class InitListViewAndEditBox
             HorizontalAlignment = HorizontalAlignment.Right,
             VerticalAlignment = VerticalAlignment.Top,
             FontSize = UiUtil.ScaledFontSize(12),
+            [UiUtil.DesignFontSizeProperty] = 12,
             Padding = new Thickness(2, 2, 2, 2),
         };
         textTotalLengthLabelOriginal.Bind(TextBlock.TextProperty, new Binding(nameof(vm.EditTextTotalLengthOriginal))

@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls.Documents;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
@@ -228,6 +229,16 @@ public static class UiTheme
         else
         {
             window.FontSize = DefaultFontSize * FontScale;
+        }
+
+        // Explicit sizes are baked in at creation; long-lived controls that opted in via
+        // DesignFontSize get theirs re-derived here.
+        foreach (var control in window.GetVisualDescendants().OfType<Control>())
+        {
+            if (control.IsSet(UiUtil.DesignFontSizeProperty))
+            {
+                control.SetValue(TextElement.FontSizeProperty, UiUtil.ScaledFontSize(control.GetValue(UiUtil.DesignFontSizeProperty)));
+            }
         }
 
         if (window.Content is LayoutTransformControl ltc)

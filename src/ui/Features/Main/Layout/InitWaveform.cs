@@ -573,6 +573,7 @@ public class InitWaveform
         {
             HorizontalAlignment = HorizontalAlignment.Center,
             FontSize = UiUtil.ScaledFontSize(10),
+            [UiUtil.DesignFontSizeProperty] = 10,
             Margin = new Thickness(0, -15, 0, 0),
         };
         labelHorizontalZoom.Bind(TextBlock.TextProperty, new Binding(nameof(vm.AudioVisualizer) + "." + nameof(vm.AudioVisualizer.ZoomFactor))
@@ -622,6 +623,7 @@ public class InitWaveform
         {
             HorizontalAlignment = HorizontalAlignment.Center,
             FontSize = UiUtil.ScaledFontSize(10),
+            [UiUtil.DesignFontSizeProperty] = 10,
             Margin = new Thickness(0, -15, 0, 0),
         };
         labelVerticalZoom.Bind(TextBlock.TextProperty, new Binding(nameof(vm.AudioVisualizer) + "." + nameof(vm.AudioVisualizer.VerticalZoomFactor))
@@ -807,6 +809,7 @@ public class InitWaveform
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(0, 0, 10, 0),
             FontSize = UiUtil.ScaledFontSize(12),
+            [UiUtil.DesignFontSizeProperty] = 12,
             MaxHeight = 22,
             MinHeight = 22,
             Padding = new Thickness(2, 2, 0, 2),
@@ -849,7 +852,7 @@ public class InitWaveform
             Value = IconNames.Waveform,
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(10, 0, 4, 0),
-            FontSize = UiUtil.ScaledFontSize(18),
+            FontSize = 18,
         };
         var comboBoxAudioTrack = new ComboBox
         {
@@ -919,6 +922,7 @@ public class InitWaveform
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalContentAlignment = HorizontalAlignment.Center,
             FontSize = UiUtil.ScaledFontSize(12),
+            [UiUtil.DesignFontSizeProperty] = 12,
             MaxHeight = 22,
             MinHeight = 22,
             // The Fluent ComboBox theme forces MinWidth ~64; clear it so the box shrinks to the
