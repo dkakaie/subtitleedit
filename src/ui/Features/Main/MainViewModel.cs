@@ -13184,6 +13184,7 @@ public partial class MainViewModel :
 
         UiUtil.SetFontName(Se.Settings.Appearance.FontName);
         UiTheme.SetCurrentTheme();
+        InitMenu.ApplyFontSize(Menu);
 
         if (ToolbarTopSeparator != null)
         {

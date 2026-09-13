@@ -52,20 +52,7 @@ public static class InitMenu
         // the menu itself closes (#13325).
         WindowService.SuspendUndockedTopmostWhileOpen(menu);
 
-        // Drop the menu's font one notch below the theme default and tighten
-        // each item's vertical padding — a denser menu reads better when there
-        // are this many entries. The style targets nested MenuItems so submenu
-        // items inherit the same look.
-        menu.FontSize = UiUtil.ScaledFontSize(MenuFontSize);
-        menu.Styles.Add(new Style(x => x.OfType<MenuItem>())
-        {
-            Setters =
-            {
-                new Setter(MenuItem.FontSizeProperty, UiUtil.ScaledFontSize(MenuFontSize)),
-                new Setter(MenuItem.PaddingProperty, new Thickness(10, 1)),
-                new Setter(MenuItem.MinHeightProperty, 23.0),
-            },
-        });
+        ApplyFontSize(menu);
 
         menu.Items.Add(new MenuItem
         {
@@ -1106,6 +1093,35 @@ public static class InitMenu
         {
             menu.IsVisible = false;
         }
+    }
+
+    private static Style? _menuFontStyle;
+
+    /// <summary>
+    /// Drops the menu's font one notch below the theme default and tightens each item's
+    /// vertical padding - a denser menu reads better when there are this many entries. The
+    /// style targets nested MenuItems so submenu items inherit the same look. Re-run after the
+    /// settings dialog so a changed font scale (#14812) reaches the main menu without a restart;
+    /// the previous style is swapped out so the items re-evaluate.
+    /// </summary>
+    public static void ApplyFontSize(Menu menu)
+    {
+        if (_menuFontStyle != null)
+        {
+            menu.Styles.Remove(_menuFontStyle);
+        }
+
+        menu.FontSize = UiUtil.ScaledFontSize(MenuFontSize);
+        _menuFontStyle = new Style(x => x.OfType<MenuItem>())
+        {
+            Setters =
+            {
+                new Setter(MenuItem.FontSizeProperty, UiUtil.ScaledFontSize(MenuFontSize)),
+                new Setter(MenuItem.PaddingProperty, new Thickness(10, 1)),
+                new Setter(MenuItem.MinHeightProperty, 23.0),
+            },
+        };
+        menu.Styles.Add(_menuFontStyle);
     }
 
     public static void UpdateRecentFiles(MainViewModel vm)
