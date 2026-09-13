@@ -314,7 +314,7 @@ The status bar at the bottom shows:
 
 ## Layouts
 
-Subtitle Edit offers **12 predefined layouts** for arranging the main window areas. Choose a layout via the **Layout** button on the toolbar or the configurable keyboard shortcut.
+Subtitle Edit offers **14 predefined layouts** for arranging the main window areas. Choose a layout via the **Layout** button on the toolbar or the configurable keyboard shortcut.
 
 | Layout | Description |
 |--------|-------------|
@@ -329,7 +329,9 @@ Subtitle Edit offers **12 predefined layouts** for arranging the main window are
 | 9 | Video top, grid and text editor bottom; no waveform |
 | 10 | Video top-left, waveform top-right with the text editor under it, grid bottom (SE 4 / Aegisub style) |
 | 11 | Video top, waveform middle, grid and text editor bottom |
-| 12 | Grid and text editor only; no video, no waveform |
+| 12 | Grid left, video right with the text editor under it, waveform bottom |
+| 13 | Video left with the text editor under it, grid right, waveform bottom |
+| 14 | Grid and text editor only; no video, no waveform |
 
 <!-- Screenshot: Layout chooser window showing thumbnails -->
 ![Layout Chooser](../screenshots/layout-chooser.png)
