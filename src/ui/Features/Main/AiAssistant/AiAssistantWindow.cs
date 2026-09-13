@@ -190,7 +190,7 @@ public class AiAssistantWindow : Window
         var buttonThink = UiUtil.MakeButton(null, "mdi-information-outline")
             .Compact()
             .WithAccessibleName(l.ShowReasoning);
-        buttonThink.FontSize = 13;
+        buttonThink.FontSize = UiUtil.ScaledFontSize(13);
         buttonThink.Padding = new Thickness(4, 2);
         // The Fluent flyout presenter caps its width at 456 (FlyoutThemeMaxWidth), which
         // would clip the text box - raise the cap while keeping the default presenter look.

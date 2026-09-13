@@ -32,7 +32,7 @@ public class ForcedAlignerSetupWindow : Window
 
         var introIcon = new ContentControl
         {
-            FontSize = 15,
+            FontSize = UiUtil.ScaledFontSize(15),
             Foreground = Brushes.White,
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,

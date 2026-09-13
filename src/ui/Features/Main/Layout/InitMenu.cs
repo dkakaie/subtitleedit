@@ -56,12 +56,12 @@ public static class InitMenu
         // each item's vertical padding — a denser menu reads better when there
         // are this many entries. The style targets nested MenuItems so submenu
         // items inherit the same look.
-        menu.FontSize = MenuFontSize;
+        menu.FontSize = UiUtil.ScaledFontSize(MenuFontSize);
         menu.Styles.Add(new Style(x => x.OfType<MenuItem>())
         {
             Setters =
             {
-                new Setter(MenuItem.FontSizeProperty, MenuFontSize),
+                new Setter(MenuItem.FontSizeProperty, UiUtil.ScaledFontSize(MenuFontSize)),
                 new Setter(MenuItem.PaddingProperty, new Thickness(10, 1)),
                 new Setter(MenuItem.MinHeightProperty, 23.0),
             },

@@ -185,7 +185,7 @@ public class RestoreAutoBackupWindow : Window
         var lastBackupText = new TextBlock
         {
             Opacity = 0.75,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             [!TextBlock.TextProperty] = new Binding(nameof(vm.LastSettingsBackupText)),
         };
 
@@ -361,7 +361,7 @@ public class RestoreAutoBackupWindow : Window
                     Child = new TextBlock
                     {
                         Text = item.Extension,
-                        FontSize = 12,
+                        FontSize = UiUtil.ScaledFontSize(12),
                         Foreground = new SolidColorBrush(color),
                         VerticalAlignment = VerticalAlignment.Center,
                     },

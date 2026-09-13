@@ -94,7 +94,7 @@ public class BinaryChangeResolutionWindow : Window
             [!TextBlock.TextProperty] = new Binding(nameof(vm.SizeText)),
             TextWrapping = Avalonia.Media.TextWrapping.Wrap,
             Margin = new Thickness(0, 20, 0, 0),
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             FontWeight = Avalonia.Media.FontWeight.SemiBold,
         });
 
@@ -102,7 +102,7 @@ public class BinaryChangeResolutionWindow : Window
         {
             [!TextBlock.TextProperty] = new Binding(nameof(vm.ScaleText)),
             TextWrapping = Avalonia.Media.TextWrapping.Wrap,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
         });
 
         return panel;

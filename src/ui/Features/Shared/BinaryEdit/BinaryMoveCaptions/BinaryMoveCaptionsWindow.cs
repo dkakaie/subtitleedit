@@ -58,7 +58,7 @@ public class BinaryMoveCaptionsWindow : Window
             [!TextBlock.TextProperty] = new Binding(nameof(vm.InfoText)),
             TextWrapping = Avalonia.Media.TextWrapping.Wrap,
             Margin = new Thickness(0, 16, 0, 0),
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
         });
 
         var mainGrid = new Grid

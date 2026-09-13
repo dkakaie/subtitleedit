@@ -279,7 +279,7 @@ public class RemuxVideoWindow : Window
                 textName.Bind(TextBlock.TextProperty, new Binding(nameof(RemuxFileItem.Name)));
                 ToolTip.SetTip(textName, new Binding(nameof(RemuxFileItem.FileName)));
 
-                var textDetails = new TextBlock { FontSize = 11, Opacity = 0.7, TextTrimming = TextTrimming.CharacterEllipsis };
+                var textDetails = new TextBlock { FontSize = UiUtil.ScaledFontSize(11), Opacity = 0.7, TextTrimming = TextTrimming.CharacterEllipsis };
                 textDetails.Bind(TextBlock.TextProperty, new Binding(nameof(RemuxFileItem.Details)));
 
                 var textPanel = new StackPanel

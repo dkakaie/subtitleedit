@@ -502,7 +502,7 @@ public class BeautifyTimeCodesProfileWindow : Window
     private static TextBlock MakeTabHeader(string text) => new()
     {
         Text = text,
-        FontSize = 12,
+        FontSize = UiUtil.ScaledFontSize(12),
     };
 
     private NumericUpDown MakeFrameNud(string bindingPath)

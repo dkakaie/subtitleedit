@@ -156,7 +156,7 @@ public class SettingsPage : UserControl
         // Icon on a colored rounded square, matching the section header in the scroll view.
         var image = new ContentControl
         {
-            FontSize = 13,
+            FontSize = UiUtil.ScaledFontSize(13),
             Foreground = Brushes.White,
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
@@ -239,7 +239,7 @@ public class SettingsPage : UserControl
             var check = new TextBlock
             {
                 Text = "✓",
-                FontSize = 16,
+                FontSize = UiUtil.ScaledFontSize(16),
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Top,
             };
@@ -255,7 +255,7 @@ public class SettingsPage : UserControl
                     new TextBlock
                     {
                         Text = item.Name,
-                        FontSize = 12,
+                        FontSize = UiUtil.ScaledFontSize(12),
                         LineHeight = 15,
                         MaxLines = 2,
                         TextWrapping = TextWrapping.Wrap,
@@ -592,7 +592,7 @@ public class SettingsPage : UserControl
                         Margin = new Thickness(10, 0, 0, 0),
                         VerticalAlignment = VerticalAlignment.Center,
                         Opacity = 0.5,
-                        FontSize = 10,
+                        FontSize = UiUtil.ScaledFontSize(10),
                     }
                 },
             }),
@@ -780,7 +780,7 @@ public class SettingsPage : UserControl
                         Margin = new Thickness(10, 0, 0, 0),
                         VerticalAlignment = VerticalAlignment.Center,
                         Opacity = 0.5,
-                        FontSize = 10,
+                        FontSize = UiUtil.ScaledFontSize(10),
                     }
                 }
             }),

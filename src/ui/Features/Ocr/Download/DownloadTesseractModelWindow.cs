@@ -28,7 +28,7 @@ public class DownloadTesseractModelWindow : Window
         var titleText = new TextBlock
         {
             Text = string.Format(Se.Language.General.DownloadingX, "Tesseract model"),
-            FontSize = 20,
+            FontSize = UiUtil.ScaledFontSize(20),
             FontWeight = FontWeight.Bold,
         };
         titleText.Bind(TextBlock.IsVisibleProperty, new Binding(nameof(vm.IsProgressVisible)));

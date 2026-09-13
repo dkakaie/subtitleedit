@@ -2,6 +2,8 @@
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Primitives;
+using Avalonia.Data;
+using Avalonia.Data.Converters;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
@@ -347,6 +349,21 @@ public static class UiTheme
             styles.Add(comboBoxItemStyle);
         }
 
+        // Font scale must not grow icons (#14812): an Icon sizes its glyph from the inherited
+        // FontSize, so the scaled window font would enlarge every icon button. A style beats
+        // inheritance, so re-derive the icon size from the nearest ancestor, undoing the scale.
+        // Icons with their own explicit FontSize keep it (local value beats style).
+        if (Math.Abs(FontScale - 1.0) > 0.0001)
+        {
+            var iconStyle = new Style(x => x.OfType<Optris.Icons.Avalonia.Icon>());
+            iconStyle.Setters.Add(new Setter(TemplatedControl.FontSizeProperty, new Binding(nameof(TemplatedControl.FontSize))
+            {
+                RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor) { AncestorType = typeof(Control) },
+                Converter = new IconFontSizeConverter(FontScale),
+            }));
+            styles.Add(iconStyle);
+        }
+
         _layoutScaleMenuStyle = styles;
         Application.Current.Styles.Add(styles);
 
@@ -358,6 +375,27 @@ public static class UiTheme
         // font size above, so 150%+ layouts do not clip again; popups still size to their
         // content, so short menus are unaffected.
         Application.Current.Resources["FlyoutThemeMaxWidth"] = 680d * factor;
+    }
+
+    /// <summary>
+    /// Divides an icon's inherited font size by the font scale: every explicit size goes through
+    /// <see cref="UiUtil.ScaledFontSize"/> and the window default is scaled too, so this lands
+    /// icons back on their design-time size.
+    /// </summary>
+    private sealed class IconFontSizeConverter(double fontScale) : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value is not double size)
+            {
+                return value;
+            }
+
+            return size / fontScale;
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
+            => throw new NotSupportedException();
     }
 
     private static Styles? _scrollBarStyle;

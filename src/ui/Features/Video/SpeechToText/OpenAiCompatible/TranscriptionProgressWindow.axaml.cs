@@ -1,3 +1,4 @@
+using Nikse.SubtitleEdit.Logic;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -34,7 +35,7 @@ public class TranscriptionProgressWindow : Window
 
         var connectionInfoText = new TextBlock
         {
-            FontSize = 11,
+            FontSize = UiUtil.ScaledFontSize(11),
             Foreground = Brushes.Gray,
             Margin = new Thickness(0, 0, 0, 2),
             TextWrapping = TextWrapping.Wrap
@@ -43,7 +44,7 @@ public class TranscriptionProgressWindow : Window
 
         var modelInfoText = new TextBlock
         {
-            FontSize = 11,
+            FontSize = UiUtil.ScaledFontSize(11),
             Foreground = Brushes.Gray,
             Margin = new Thickness(0, 0, 0, 10)
         };

@@ -35,10 +35,10 @@ public class GetPluginsWindow : Window
             var name = new TextBlock { FontWeight = FontWeight.Bold, VerticalAlignment = VerticalAlignment.Bottom };
             name.Bind(TextBlock.TextProperty, new Binding(nameof(GetPluginsDisplayItem.Name)));
 
-            var version = new TextBlock { Opacity = 0.7, FontSize = 11, Margin = new Thickness(8, 0, 0, 0), VerticalAlignment = VerticalAlignment.Bottom };
+            var version = new TextBlock { Opacity = 0.7, FontSize = UiUtil.ScaledFontSize(11), Margin = new Thickness(8, 0, 0, 0), VerticalAlignment = VerticalAlignment.Bottom };
             version.Bind(TextBlock.TextProperty, new Binding(nameof(GetPluginsDisplayItem.Version)));
 
-            var author = new TextBlock { Opacity = 0.7, FontSize = 11, Margin = new Thickness(8, 0, 0, 0), VerticalAlignment = VerticalAlignment.Bottom };
+            var author = new TextBlock { Opacity = 0.7, FontSize = UiUtil.ScaledFontSize(11), Margin = new Thickness(8, 0, 0, 0), VerticalAlignment = VerticalAlignment.Bottom };
             author.Bind(TextBlock.TextProperty, new Binding(nameof(GetPluginsDisplayItem.Author)));
 
             // Small accent-coloured "Update" pill that appears only when an update is available.
@@ -52,7 +52,7 @@ public class GetPluginsWindow : Window
                 Child = new TextBlock
                 {
                     Text = Se.Language.General.Update,
-                    FontSize = 10,
+                    FontSize = UiUtil.ScaledFontSize(10),
                     FontWeight = FontWeight.SemiBold,
                     Foreground = Brushes.White,
                 },
@@ -68,7 +68,7 @@ public class GetPluginsWindow : Window
             var description = new TextBlock { Opacity = 0.8, TextWrapping = TextWrapping.Wrap };
             description.Bind(TextBlock.TextProperty, new Binding(nameof(GetPluginsDisplayItem.Description)));
 
-            var status = new TextBlock { FontSize = 11 };
+            var status = new TextBlock { FontSize = UiUtil.ScaledFontSize(11) };
             status.Bind(TextBlock.TextProperty, new Binding(nameof(GetPluginsDisplayItem.StatusText)));
             status.Bind(TextBlock.ForegroundProperty, new Binding(nameof(GetPluginsDisplayItem.StatusBrush)));
             status.Bind(TextBlock.FontWeightProperty, new Binding(nameof(GetPluginsDisplayItem.StatusFontWeight)));

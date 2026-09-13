@@ -67,14 +67,14 @@ public class F5TtsCrispAsrSettingsWindow : Window
         var title = new TextBlock
         {
             Text = "F5-TTS (CrispASR)",
-            FontSize = 18,
+            FontSize = UiUtil.ScaledFontSize(18),
             FontWeight = FontWeight.SemiBold,
         };
 
         var subtitle = new TextBlock
         {
             Text = new F5TtsCrispAsr().Description,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             Opacity = 0.75,
             Margin = new Thickness(0, 2, 0, 0),
         };
@@ -140,7 +140,7 @@ public class F5TtsCrispAsrSettingsWindow : Window
             Background = Brushes.Transparent,
             Padding = new Thickness(0),
             VerticalContentAlignment = VerticalAlignment.Center,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             [!TextBox.TextProperty] = new Binding(nameof(vm.ModelsFolder)),
         };
         grid.Add(folderText, 4, 1);

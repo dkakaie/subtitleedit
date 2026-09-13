@@ -86,7 +86,7 @@ public class WordListsWindow : Window
 
         var icon = new ContentControl
         {
-            FontSize = 13,
+            FontSize = UiUtil.ScaledFontSize(13),
             Foreground = Brushes.White,
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
@@ -116,7 +116,7 @@ public class WordListsWindow : Window
             Child = new TextBlock
             {
                 [!TextBlock.TextProperty] = countBinding,
-                FontSize = 10,
+                FontSize = UiUtil.ScaledFontSize(10),
                 FontWeight = FontWeight.SemiBold,
                 VerticalAlignment = VerticalAlignment.Center,
                 Foreground = new SolidColorBrush(color),

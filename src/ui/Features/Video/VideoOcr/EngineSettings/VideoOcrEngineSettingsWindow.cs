@@ -52,14 +52,14 @@ public class VideoOcrEngineSettingsWindow : Window
     {
         var title = new TextBlock
         {
-            FontSize = 18,
+            FontSize = UiUtil.ScaledFontSize(18),
             FontWeight = FontWeight.SemiBold,
             [!TextBlock.TextProperty] = new Binding(nameof(vm.TitleText)),
         };
 
         var subtitle = new TextBlock
         {
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             Opacity = 0.75,
             TextWrapping = TextWrapping.Wrap,
             MaxWidth = LabelWidth + ValueWidth + 40,
@@ -123,7 +123,7 @@ public class VideoOcrEngineSettingsWindow : Window
             Background = Brushes.Transparent,
             Padding = new Thickness(0),
             VerticalContentAlignment = VerticalAlignment.Center,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             [!TextBox.TextProperty] = new Binding(nameof(vm.InstallFolder)),
         };
         grid.Add(folderText.WithBindIsVisible(nameof(vm.HasInstallFolder)), 2, 1);

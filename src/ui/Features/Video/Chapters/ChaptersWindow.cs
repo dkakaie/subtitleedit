@@ -78,7 +78,7 @@ public class ChaptersWindow : Window
         var title = new TextBlock
         {
             Text = Se.Language.Video.Chapters.Chapters,
-            FontSize = 15,
+            FontSize = UiUtil.ScaledFontSize(15),
             FontWeight = FontWeight.SemiBold,
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(8, 0, 0, 0),
@@ -156,7 +156,7 @@ public class ChaptersWindow : Window
             Child = new TextBlock
             {
                 [!TextBlock.TextProperty] = textBinding,
-                FontSize = 10,
+                FontSize = UiUtil.ScaledFontSize(10),
                 FontWeight = FontWeight.SemiBold,
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -471,7 +471,7 @@ public class ChaptersWindow : Window
             Text = text,
             TextWrapping = TextWrapping.Wrap,
             Opacity = 0.65,
-            FontSize = 11,
+            FontSize = UiUtil.ScaledFontSize(11),
             Margin = new Thickness(0, 0, 0, 8),
         };
     }

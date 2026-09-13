@@ -42,7 +42,7 @@ public class AiReviewPromptWindow : Window
         var labelProtocol = UiUtil.MakeTextBlock(l.ProtocolInfo);
         labelProtocol.TextWrapping = TextWrapping.Wrap;
         labelProtocol.Opacity = 0.6;
-        labelProtocol.FontSize = 12;
+        labelProtocol.FontSize = UiUtil.ScaledFontSize(12);
         var borderProtocol = new Border
         {
             BorderBrush = UiUtil.GetBorderBrush(),

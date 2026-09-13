@@ -54,7 +54,7 @@ public class PluginManagerWindow : Window
             var description = new TextBlock { Opacity = 0.8, TextWrapping = TextWrapping.Wrap };
             description.Bind(TextBlock.TextProperty, new Binding(nameof(PluginDisplayItem.Description)));
 
-            var status = new TextBlock { Opacity = 0.6, FontSize = 11 };
+            var status = new TextBlock { Opacity = 0.6, FontSize = UiUtil.ScaledFontSize(11) };
             status.Bind(TextBlock.TextProperty, new Binding(nameof(PluginDisplayItem.StatusText)));
 
             var textPanel = new StackPanel

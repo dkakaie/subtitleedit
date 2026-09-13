@@ -43,7 +43,7 @@ public class SettingsSection
         // (and the group icons in the shortcuts window).
         var icon = new ContentControl
         {
-            FontSize = 15,
+            FontSize = UiUtil.ScaledFontSize(15),
             Foreground = Brushes.White,
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
@@ -71,7 +71,7 @@ public class SettingsSection
                 new TextBlock
                 {
                     Text = Title,
-                    FontSize = 16,
+                    FontSize = UiUtil.ScaledFontSize(16),
                     FontWeight = FontWeight.Bold,
                     VerticalAlignment = VerticalAlignment.Center,
                 },

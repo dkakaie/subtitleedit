@@ -448,7 +448,7 @@ public class FixCommonErrorsWindow : Window
                         Child = new TextBlock
                         {
                             Text = item.ActionDisplay,
-                            FontSize = 12,
+                            FontSize = UiUtil.ScaledFontSize(12),
                             Foreground = _vm.GetActionBrush(item.ActionDisplay),
                             VerticalAlignment = VerticalAlignment.Center,
                         },
@@ -868,7 +868,7 @@ public class FixCommonErrorsWindow : Window
         {
             HorizontalAlignment = HorizontalAlignment.Right,
             VerticalAlignment = VerticalAlignment.Top,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             Padding = new Thickness(2),
         };
         totalLengthLabel.Bind(TextBlock.TextProperty, new Binding(nameof(_vm.EditTextTotalLength)) { Source = _vm });

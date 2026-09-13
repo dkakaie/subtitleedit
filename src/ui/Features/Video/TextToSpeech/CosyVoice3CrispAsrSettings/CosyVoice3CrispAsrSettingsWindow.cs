@@ -67,14 +67,14 @@ public class CosyVoice3CrispAsrSettingsWindow : Window
         var title = new TextBlock
         {
             Text = "CosyVoice3 (CrispASR)",
-            FontSize = 18,
+            FontSize = UiUtil.ScaledFontSize(18),
             FontWeight = FontWeight.SemiBold,
         };
 
         var subtitle = new TextBlock
         {
             Text = new CosyVoice3CrispAsr().Description,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             Opacity = 0.75,
             Margin = new Thickness(0, 2, 0, 0),
         };
@@ -165,7 +165,7 @@ public class CosyVoice3CrispAsrSettingsWindow : Window
         {
             Text = "Language spoken in imported reference WAVs (for cross-lingual cloning). "
                    + "Auto detects it from each voice's transcript.",
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             Opacity = 0.75,
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(8, 0, 0, 0),
@@ -185,7 +185,7 @@ public class CosyVoice3CrispAsrSettingsWindow : Window
             Background = Brushes.Transparent,
             Padding = new Thickness(0),
             VerticalContentAlignment = VerticalAlignment.Center,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             [!TextBox.TextProperty] = new Binding(nameof(vm.ModelsFolder)),
         };
         grid.Add(folderText, 9, 1);

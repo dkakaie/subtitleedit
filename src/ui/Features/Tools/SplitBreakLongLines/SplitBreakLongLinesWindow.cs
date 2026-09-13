@@ -240,7 +240,7 @@ public class SplitBreakLongLinesWindow : Window
                                 Child = new TextBlock
                                 {
                                     Text = item.Name,
-                                    FontSize = 12,
+                                    FontSize = UiUtil.ScaledFontSize(12),
                                     Foreground = new SolidColorBrush(color),
                                     VerticalAlignment = VerticalAlignment.Center,
                                 },

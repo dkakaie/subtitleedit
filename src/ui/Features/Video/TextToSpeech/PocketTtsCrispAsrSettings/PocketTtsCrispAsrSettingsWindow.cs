@@ -67,14 +67,14 @@ public class PocketTtsCrispAsrSettingsWindow : Window
         var title = new TextBlock
         {
             Text = "Pocket TTS (CrispASR)",
-            FontSize = 18,
+            FontSize = UiUtil.ScaledFontSize(18),
             FontWeight = FontWeight.SemiBold,
         };
 
         var subtitle = new TextBlock
         {
             Text = new PocketTtsCrispAsr().Description,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             Opacity = 0.75,
             Margin = new Thickness(0, 2, 0, 0),
         };
@@ -83,7 +83,7 @@ public class PocketTtsCrispAsrSettingsWindow : Window
         // (with a link to the model page) rather than leaving it buried in the download source.
         var license = UiUtil.MakeLink("License: CC-BY-4.0 + Kyutai gated-use conditions", vm.OpenLicensePageCommand);
         license.Margin = new Thickness(0, 2, 0, 0);
-        license.FontSize = 12;
+        license.FontSize = UiUtil.ScaledFontSize(12);
 
         return new StackPanel
         {
@@ -170,7 +170,7 @@ public class PocketTtsCrispAsrSettingsWindow : Window
             Background = Brushes.Transparent,
             Padding = new Thickness(0),
             VerticalContentAlignment = VerticalAlignment.Center,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             [!TextBox.TextProperty] = new Binding(nameof(vm.ModelsFolder)),
         };
         grid.Add(folderText, 10, 1);
