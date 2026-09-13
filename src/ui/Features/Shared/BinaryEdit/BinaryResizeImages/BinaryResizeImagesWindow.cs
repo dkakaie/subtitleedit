@@ -103,7 +103,7 @@ public class BinaryResizeImagesWindow : Window
             [!TextBlock.TextProperty] = new Binding(nameof(vm.ImageSizeText)),
             TextWrapping = Avalonia.Media.TextWrapping.Wrap,
             Margin = new Thickness(0, 20, 0, 0),
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             FontWeight = Avalonia.Media.FontWeight.SemiBold,
         };
         panel.Children.Add(imageSizeLabel);
@@ -114,7 +114,7 @@ public class BinaryResizeImagesWindow : Window
             Text = Se.Language.Tools.ImageBasedEdit.ResizeImagesInfo,
             TextWrapping = Avalonia.Media.TextWrapping.Wrap,
             Margin = new Thickness(0, 20, 0, 0),
-            FontSize = 11,
+            FontSize = UiUtil.ScaledFontSize(11),
             Foreground = Avalonia.Media.Brushes.Gray,
         };
         panel.Children.Add(infoText);

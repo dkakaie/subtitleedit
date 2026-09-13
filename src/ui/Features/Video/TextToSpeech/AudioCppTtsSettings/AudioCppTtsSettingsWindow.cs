@@ -66,14 +66,14 @@ public class AudioCppTtsSettingsWindow : Window
         var title = new TextBlock
         {
             Text = vm.Adapter.EngineName,
-            FontSize = 18,
+            FontSize = UiUtil.ScaledFontSize(18),
             FontWeight = FontWeight.SemiBold,
         };
 
         var subtitle = new TextBlock
         {
             Text = vm.Adapter.Description,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             Opacity = 0.75,
             Margin = new Thickness(0, 2, 0, 0),
         };
@@ -146,7 +146,7 @@ public class AudioCppTtsSettingsWindow : Window
             Background = Brushes.Transparent,
             Padding = new Thickness(0),
             VerticalContentAlignment = VerticalAlignment.Center,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             [!TextBox.TextProperty] = new Binding(nameof(vm.ModelsFolder)),
         }, 4, 1);
 

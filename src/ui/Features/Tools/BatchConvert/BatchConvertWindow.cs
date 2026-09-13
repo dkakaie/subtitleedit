@@ -179,7 +179,7 @@ public class BatchConvertWindow : Window
                 // in-progress statuses render as plain text (converter returns unset).
                 var text = new TextBlock
                 {
-                    FontSize = 11,
+                    FontSize = UiUtil.ScaledFontSize(11),
                     VerticalAlignment = VerticalAlignment.Center,
                 };
                 text.Bind(TextBlock.TextProperty, new Binding(nameof(BatchConvertItem.Status)));

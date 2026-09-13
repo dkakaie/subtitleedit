@@ -628,7 +628,7 @@ public static class UiUtil
             HorizontalContentAlignment = HorizontalAlignment.Center,
             VerticalContentAlignment = VerticalAlignment.Center,
             Command = command,
-            FontSize = fontSize,
+            FontSize = ScaledFontSize(fontSize),
         };
 
         Attached.SetIcon(button, iconName);
@@ -1808,9 +1808,30 @@ public static class UiUtil
         return control;
     }
 
+    /// <summary>
+    /// Scales a design-time font size by the user's "Font scale (%)" setting (#14812). Route every
+    /// explicit control font size through this so it follows the setting; the window-inherited
+    /// default is scaled by <see cref="UiTheme.ApplyScaleToWindow"/>. Icons undo this again via
+    /// the icon style in <see cref="UiTheme"/>, so icon sizes stay put.
+    /// </summary>
+    public static double ScaledFontSize(double fontSize)
+    {
+        return fontSize * UiTheme.FontScale;
+    }
+
+    /// <summary>
+    /// Design-time font size for controls that outlive a font scale change (the main window's
+    /// hint labels, which are not rebuilt in undocked mode). <see cref="UiTheme.ApplyScaleToWindow"/>
+    /// walks every open window and re-applies <see cref="ScaledFontSize"/> for each control
+    /// carrying this, so the new scale shows without a restart. Set it next to FontSize:
+    /// <c>FontSize = UiUtil.ScaledFontSize(12), [UiUtil.DesignFontSizeProperty] = 12</c>.
+    /// </summary>
+    public static readonly AttachedProperty<double> DesignFontSizeProperty =
+        AvaloniaProperty.RegisterAttached<Control, double>("DesignFontSize", typeof(UiUtil), double.NaN);
+
     public static TextBlock WithFontSize(this TextBlock control, double fontSize)
     {
-        control.FontSize = fontSize;
+        control.FontSize = ScaledFontSize(fontSize);
         return control;
     }
 
@@ -1923,7 +1944,7 @@ public static class UiUtil
 
     public static Label WithFontSize(this Label control, int fontSize)
     {
-        control.FontSize = fontSize;
+        control.FontSize = ScaledFontSize(fontSize);
         return control;
     }
 
@@ -1964,7 +1985,7 @@ public static class UiUtil
 
     public static Button WithFontSize(this Button control, double fontSize)
     {
-        control.FontSize = fontSize;
+        control.FontSize = ScaledFontSize(fontSize);
         return control;
     }
 

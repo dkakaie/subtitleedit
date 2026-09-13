@@ -15,6 +15,7 @@ public class SeAppearance
     public string IconTheme { get; set; }
     public bool MatchIconColorToDarkTheme { get; set; }
     public double LayoutScale { get; set; }
+    public double FontScale { get; set; }
     public string FontName { get; set; }
     public double SubtitleGridFontSize { get; set; }
     public bool SubtitleGridTextSingleLine { get; set; }
@@ -113,6 +114,7 @@ public class SeAppearance
         IconTheme = string.Empty;
         MatchIconColorToDarkTheme = false;
         LayoutScale = 1.0;
+        FontScale = 1.0;
         // On macOS default to Helvetica Neue rather than the hidden system font (.AppleSystemUIFont /
         // San Francisco): SetFontName applies this family explicitly to every control, and Helvetica
         // Neue avoids Avalonia's caret-misplacement with San Francisco's overhanging glyphs (#12009).

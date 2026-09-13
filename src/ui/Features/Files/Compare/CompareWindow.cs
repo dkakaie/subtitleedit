@@ -253,7 +253,7 @@ public class CompareWindow : Window
                 {
                     Text = label,
                     Opacity = 0.8,
-                    FontSize = 12,
+                    FontSize = UiUtil.ScaledFontSize(12),
                     VerticalAlignment = VerticalAlignment.Center,
                 },
             },

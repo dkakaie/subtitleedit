@@ -81,21 +81,21 @@ public class AutoCastSpeakersWindow : Window
         var title = new TextBlock
         {
             Text = Se.Language.Video.TextToSpeech.AutoCastSpeakersTitle,
-            FontSize = 16,
+            FontSize = UiUtil.ScaledFontSize(16),
             FontWeight = FontWeight.SemiBold,
         };
 
         var subtitle = new TextBlock
         {
             Text = Se.Language.Video.TextToSpeech.AutoCastSpeakersSubtitle,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             Foreground = UiUtil.GetTextColor(0.6d),
             TextWrapping = TextWrapping.Wrap,
         };
 
         var summary = new TextBlock
         {
-            FontSize = 11,
+            FontSize = UiUtil.ScaledFontSize(11),
             Foreground = UiUtil.GetTextColor(0.55d),
             Margin = new Thickness(0, 4, 0, 0),
             [!TextBlock.TextProperty] = new Binding(nameof(vm.SummaryText)) { Mode = BindingMode.OneWay },

@@ -23,7 +23,7 @@ public class PickAudioTrackWindow : Window
 
         var titleBlock = new TextBlock
         {
-            FontSize = 14,
+            FontSize = UiUtil.ScaledFontSize(14),
             FontWeight = FontWeight.Bold,
             TextWrapping = TextWrapping.Wrap,
         };

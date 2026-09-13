@@ -68,14 +68,14 @@ public class ChatterboxTtsSettingsWindow : Window
         var title = new TextBlock
         {
             Text = "Chatterbox TTS",
-            FontSize = 18,
+            FontSize = UiUtil.ScaledFontSize(18),
             FontWeight = FontWeight.SemiBold,
         };
 
         var subtitle = new TextBlock
         {
             Text = new ChatterboxTtsCpp().Description,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             Opacity = 0.75,
             Margin = new Thickness(0, 2, 0, 0),
         };
@@ -129,7 +129,7 @@ public class ChatterboxTtsSettingsWindow : Window
             Background = Brushes.Transparent,
             Padding = new Thickness(0),
             VerticalContentAlignment = VerticalAlignment.Center,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             [!TextBox.TextProperty] = new Binding(nameof(vm.ModelsFolder)),
         };
         // Row 2, beside its own label - every sibling settings window pairs (N,0) with (N,1).
@@ -144,7 +144,7 @@ public class ChatterboxTtsSettingsWindow : Window
         var sourceLanguageHint = new TextBlock
         {
             Text = "Language spoken in imported reference WAVs (for cross-lingual cloning).",
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             Opacity = 0.75,
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(8, 0, 0, 0),

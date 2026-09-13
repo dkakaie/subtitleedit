@@ -41,13 +41,13 @@ public class LlamaCppAdvancedSettingsWindow : Window
                 new TextBlock
                 {
                     Text = Se.Language.Translate.AdvancedSettings,
-                    FontSize = 18,
+                    FontSize = UiUtil.ScaledFontSize(18),
                     FontWeight = FontWeight.SemiBold,
                 },
                 new TextBlock
                 {
                     Text = Se.Language.Translate.AdvancedSettingsSubtitle,
-                    FontSize = 12,
+                    FontSize = UiUtil.ScaledFontSize(12),
                     Opacity = 0.75,
                     Margin = new Thickness(0, 2, 0, 0),
                 },

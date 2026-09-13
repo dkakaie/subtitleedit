@@ -63,7 +63,7 @@ public class ModelLicenseWindow : Window
         var title = new TextBlock
         {
             Text = vm.Definition.Header,
-            FontSize = 18,
+            FontSize = UiUtil.ScaledFontSize(18),
             FontWeight = FontWeight.SemiBold,
             TextWrapping = TextWrapping.Wrap,
         };
@@ -71,7 +71,7 @@ public class ModelLicenseWindow : Window
         var subtitle = new TextBlock
         {
             Text = vm.Definition.Intro,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             Opacity = 0.75,
             TextWrapping = TextWrapping.Wrap,
             Margin = new Thickness(0, 4, 0, 0),

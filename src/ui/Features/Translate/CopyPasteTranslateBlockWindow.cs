@@ -27,7 +27,7 @@ public class CopyPasteTranslateBlockWindow : Window
             Padding = new Thickness(15),
             Margin = new Thickness(15),
             FontWeight = Avalonia.Media.FontWeight.Bold,
-            FontSize = 16,
+            FontSize = UiUtil.ScaledFontSize(16),
             Command = vm.CopyFromClipboardCommand,
         };
 

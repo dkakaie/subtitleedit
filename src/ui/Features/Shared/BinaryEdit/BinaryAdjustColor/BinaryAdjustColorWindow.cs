@@ -89,7 +89,7 @@ public class BinaryAdjustColorWindow : Window
             Text = Se.Language.Tools.ImageBasedEdit.ColorAdjustmentInfo,
             TextWrapping = TextWrapping.Wrap,
             Margin = new Thickness(0, 4, 0, 0),
-            FontSize = 11,
+            FontSize = UiUtil.ScaledFontSize(11),
             Foreground = Brushes.Gray,
         };
         panel.Children.Add(infoText);

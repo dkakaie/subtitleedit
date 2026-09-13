@@ -114,7 +114,7 @@ public class GetDictionariesWindow : Window
             Background = Brushes.Transparent,
             Padding = new Thickness(0),
             VerticalContentAlignment = VerticalAlignment.Center,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             MaxWidth = ContentWidth,
             HorizontalAlignment = HorizontalAlignment.Left,
             [!TextBox.TextProperty] = new Binding(nameof(vm.DictionariesFolder)),

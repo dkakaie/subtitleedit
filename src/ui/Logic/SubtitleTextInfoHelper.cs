@@ -150,7 +150,7 @@ internal static class SubtitleTextInfoHelper
 
             if (Math.Abs(existing.FontSize - LabelFontSize) > 0.001)
             {
-                existing.FontSize = LabelFontSize;
+                existing.FontSize = UiUtil.ScaledFontSize(LabelFontSize);
             }
 
             if (existing.Padding != LabelPadding)

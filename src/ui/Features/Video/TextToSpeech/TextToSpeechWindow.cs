@@ -64,7 +64,7 @@ public class TextToSpeechWindow : Window
                     videoChipIcon,
                     new TextBlock
                     {
-                        FontSize = 11.5,
+                        FontSize = UiUtil.ScaledFontSize(11.5),
                         Opacity = 0.8,
                         VerticalAlignment = VerticalAlignment.Center,
                         [!TextBlock.TextProperty] = new Binding(nameof(vm.VideoInfo)) { Mode = BindingMode.OneWay },
@@ -267,7 +267,7 @@ public class TextToSpeechWindow : Window
                 new TextBlock
                 {
                     Text = hint,
-                    FontSize = 11.5,
+                    FontSize = UiUtil.ScaledFontSize(11.5),
                     Opacity = 0.65,
                     Margin = new Thickness(28, 0, 0, 10),
                     TextWrapping = TextWrapping.Wrap,
@@ -328,7 +328,7 @@ public class TextToSpeechWindow : Window
         // every engine carries a description that was previously shown nowhere.
         var labelEngineDescription = new TextBlock
         {
-            FontSize = 11.5,
+            FontSize = UiUtil.ScaledFontSize(11.5),
             Opacity = 0.65,
             Margin = new Thickness(labelMinWidth + 5, 2, 0, 0),
             TextTrimming = TextTrimming.CharacterEllipsis,
@@ -398,7 +398,7 @@ public class TextToSpeechWindow : Window
                     Background = new SolidColorBrush(Color.FromArgb(28, 128, 128, 128)),
                     Child = new TextBlock
                     {
-                        FontSize = 11.5,
+                        FontSize = UiUtil.ScaledFontSize(11.5),
                         Opacity = 0.8,
                         [!TextBlock.TextProperty] = new Binding($"{nameof(vm.Voices)}.{nameof(vm.Voices.Count)}")
                         {
@@ -756,7 +756,7 @@ public class TextToSpeechWindow : Window
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Right,
             Opacity = 0.7,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             Margin = new Thickness(8, 6, 0, 0),
             [!TextBlock.TextProperty] = new Binding(nameof(vm.ProgressEtaText)) { Mode = BindingMode.OneWay },
         };

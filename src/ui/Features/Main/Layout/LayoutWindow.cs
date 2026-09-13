@@ -54,7 +54,7 @@ public class LayoutWindow : Window
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 Foreground = Brushes.White,
-                FontSize = 34,
+                FontSize = UiUtil.ScaledFontSize(34),
                 FontWeight = FontWeight.Bold,
                 Opacity = 0.7,
             };

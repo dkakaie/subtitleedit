@@ -86,7 +86,7 @@ public class OpenOriginalMismatchWindow : Window
             MaxWidth = ContentWidth - 28,
             Margin = new Thickness(28, 0, 0, 0),
             Opacity = 0.75,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             [!TextBlock.TextProperty] = new Binding(nameof(vm.AllowEditHint)),
         };
 
@@ -187,7 +187,7 @@ public class OpenOriginalMismatchWindow : Window
             MaxWidth = ContentWidth - 60,
             Margin = new Thickness(28, 0, 0, 0),
             Opacity = 0.8,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             [!TextBlock.TextProperty] = new Binding(hintProperty),
         };
 
@@ -196,7 +196,7 @@ public class OpenOriginalMismatchWindow : Window
             TextWrapping = TextWrapping.Wrap,
             MaxWidth = ContentWidth - 90,
             VerticalAlignment = VerticalAlignment.Center,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             [!TextBlock.TextProperty] = new Binding(noteProperty),
         };
 

@@ -26,7 +26,7 @@ public sealed class DownloadTtsWindow : Window
 
         var titleText = new TextBlock
         {            
-            FontSize = 20,
+            FontSize = UiUtil.ScaledFontSize(20),
             FontWeight = FontWeight.Bold,
             [!TextBlock.TextProperty] = new Binding(nameof(vm.TitleText)),
         };

@@ -223,7 +223,7 @@ public class SpeechToTextWindow : Window
             VerticalAlignment = VerticalAlignment.Top,
             HorizontalAlignment = HorizontalAlignment.Left,
             IsReadOnly = true,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             Margin = new Thickness(0),
             Opacity = 0.6,
             BorderThickness = new Thickness(0),

@@ -30,7 +30,7 @@ public class FormatLimitWarningWindow : Window
                 MakeIcon(IconNames.Alert, 36, 1.0),
                 new TextBlock
                 {
-                    FontSize = 15,
+                    FontSize = UiUtil.ScaledFontSize(15),
                     FontWeight = FontWeight.SemiBold,
                     VerticalAlignment = VerticalAlignment.Center,
                     TextWrapping = TextWrapping.Wrap,
@@ -72,7 +72,7 @@ public class FormatLimitWarningWindow : Window
 
         var checkBoxDoNotShowAgain = new CheckBox
         {
-            Content = new TextBlock { Text = Se.Language.Main.FormatLimitWarningDoNotShowAgain, FontSize = 13 },
+            Content = new TextBlock { Text = Se.Language.Main.FormatLimitWarningDoNotShowAgain, FontSize = UiUtil.ScaledFontSize(13) },
             Opacity = 0.8,
             [!CheckBox.IsCheckedProperty] = new Binding(nameof(vm.DoNotShowAgain)) { Mode = BindingMode.TwoWay },
         };

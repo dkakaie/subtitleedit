@@ -94,7 +94,7 @@ public class ImageBasedProfileWindow : Window
         var heading = new TextBlock
         {
             Text = Se.Language.General.ProfileName,
-            FontSize = 20,
+            FontSize = UiUtil.ScaledFontSize(20),
             Padding = new Thickness(0, 25, 0, 0),
         };
         editorGrid.Children.Add(heading);

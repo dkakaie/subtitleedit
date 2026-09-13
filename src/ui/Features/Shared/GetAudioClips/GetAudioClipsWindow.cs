@@ -24,7 +24,7 @@ public class GetAudioClipsWindow : Window
         var titleText = new TextBlock
         {
             Text = Se.Language.General.ExtractingAudioClips,
-            FontSize = 20,
+            FontSize = UiUtil.ScaledFontSize(20),
             FontWeight = FontWeight.Bold,
         };
 

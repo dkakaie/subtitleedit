@@ -112,7 +112,7 @@ public class VoiceSettingsWindow : Window
             Text = Se.Language.Video.TextToSpeech.DropAudioFileHereHint,
             HorizontalAlignment = HorizontalAlignment.Center,
             TextAlignment = TextAlignment.Center,
-            FontSize = 11,
+            FontSize = UiUtil.ScaledFontSize(11),
             Foreground = UiUtil.GetTextColor(0.5d),
         };
 

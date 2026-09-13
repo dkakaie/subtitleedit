@@ -610,7 +610,7 @@ public class BurnInWindow : Window
                 {
                     Content = Se.Language.Video.AssaStyleWillBeUsed,
                     FontWeight = FontWeight.Bold,
-                    FontSize = 22,
+                    FontSize = UiUtil.ScaledFontSize(22),
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalContentAlignment = HorizontalAlignment.Center,
@@ -703,7 +703,7 @@ public class BurnInWindow : Window
         var labelCrf = UiUtil.MakeLabel(string.Empty).WithBindText(vm, nameof(vm.VideoCrfText));
         var comboBoxCrf = UiUtil.MakeComboBox(vm.VideoCrf, vm, nameof(vm.SelectedVideoCrf));
         var labelCrfHint = UiUtil.MakeLabel(string.Empty).WithBindText(vm, nameof(vm.VideoCrfHint)).WithMarginLeft(5);
-        labelCrfHint.FontSize = 10;
+        labelCrfHint.FontSize = UiUtil.ScaledFontSize(10);
         labelCrfHint.Opacity = 0.7;
         var panelCrf = new StackPanel
         {
@@ -1043,7 +1043,7 @@ public class BurnInWindow : Window
         numericUpDownTargetFileSize.ValueChanged += vm.NumericUpDownTargetFileSizeChanged;
         numericUpDownTargetFileSize.Bind(NumericUpDown.IsEnabledProperty, new Binding(nameof(vm.MatchSourceVideoSize)) { Converter = InverseBooleanConverter.Instance });
         var labelVideoBitRate = UiUtil.MakeLabel(string.Empty).WithBindText(vm, nameof(vm.TargetVideoBitRateInfo));
-        labelVideoBitRate.FontSize = 10;
+        labelVideoBitRate.FontSize = UiUtil.ScaledFontSize(10);
         labelVideoBitRate.Opacity = 0.7;
         var panelTargetFileSize = new StackPanel
         {

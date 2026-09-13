@@ -86,7 +86,7 @@ public class AssistedSplitWindow : Window
         var labelNumber = new TextBlock
         {
             Text = candidate.Number.ToString(),
-            FontSize = 22,
+            FontSize = UiUtil.ScaledFontSize(22),
             FontWeight = FontWeight.Bold,
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(4, 0, 12, 0),
@@ -144,7 +144,7 @@ public class AssistedSplitWindow : Window
         var infoBlock = new TextBlock
         {
             Text = info,
-            FontSize = 11,
+            FontSize = UiUtil.ScaledFontSize(11),
             Opacity = 0.7,
             Margin = new Thickness(0, 2, 0, 0),
         };

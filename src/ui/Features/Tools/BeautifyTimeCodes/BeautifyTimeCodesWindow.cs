@@ -57,7 +57,7 @@ public class BeautifyTimeCodesWindow : Window
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Right,
             Opacity = 0.8,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             [!TextBlock.TextProperty] = new Binding(nameof(vm.StatsLine)) { Source = vm },
         };
 
@@ -99,7 +99,7 @@ public class BeautifyTimeCodesWindow : Window
         {
             VerticalAlignment = VerticalAlignment.Center,
             Opacity = 0.8,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
             [!TextBlock.TextProperty] = new Binding(nameof(vm.TimeCodesStatus)) { Source = vm },
         };
 

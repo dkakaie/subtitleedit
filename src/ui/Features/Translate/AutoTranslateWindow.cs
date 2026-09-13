@@ -203,11 +203,11 @@ public class AutoTranslateWindow : Window
 
         var poweredByLabel = UiUtil.MakeTextBlock(Se.Language.General.PoweredBy);
         poweredByLabel.Foreground = UiUtil.GetTextColor(0.65);
-        poweredByLabel.FontSize = 11;
+        poweredByLabel.FontSize = UiUtil.ScaledFontSize(11);
         poweredByLabel.VerticalAlignment = VerticalAlignment.Center;
 
         var poweredByLink = UiUtil.MakeLink("Google Translate V1", vm.GoToAutoTranslatorUriCommand, vm, nameof(vm.AutoTranslatorLinkText));
-        poweredByLink.FontSize = 11;
+        poweredByLink.FontSize = UiUtil.ScaledFontSize(11);
         poweredByLink.VerticalAlignment = VerticalAlignment.Center;
 
         var poweredByPanel = new StackPanel

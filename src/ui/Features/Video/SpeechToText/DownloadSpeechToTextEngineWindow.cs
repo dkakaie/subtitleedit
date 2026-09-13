@@ -25,7 +25,7 @@ public class DownloadSpeechToTextEngineWindow : Window
         var titleText = new TextBlock
         {
             Text = Se.Language.Video.AudioToText.DownloadingSpeechToTextEngine,
-            FontSize = 20,
+            FontSize = UiUtil.ScaledFontSize(20),
             FontWeight = FontWeight.Bold,
         };
         titleText.Bind(TextBlock.TextProperty, new Binding(nameof(vm.TitleText)));

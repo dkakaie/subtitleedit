@@ -877,7 +877,7 @@ public class OcrWindow : Window
                     Header = new TextBlock
                     {
                         Text = Se.Language.Ocr.UnknownWords,
-                        FontSize = 16,
+                        FontSize = UiUtil.ScaledFontSize(16),
                         FontWeight = Avalonia.Media.FontWeight.Bold,
                     },
                     Content = MakeUnknownWordsView(vm),
@@ -887,7 +887,7 @@ public class OcrWindow : Window
                     Header = new TextBlock
                     {
                         Text = Se.Language.Ocr.AllFixes,
-                        FontSize = 16,
+                        FontSize = UiUtil.ScaledFontSize(16),
                         FontWeight = Avalonia.Media.FontWeight.Bold,
                     },
                     Content = MakeAllFixesView(vm)
@@ -897,7 +897,7 @@ public class OcrWindow : Window
                     Header = new TextBlock
                     {
                         Text = Se.Language.Ocr.GuessesUsed,
-                        FontSize = 16,
+                        FontSize = UiUtil.ScaledFontSize(16),
                         FontWeight = Avalonia.Media.FontWeight.Bold,
                     },
                     Content = MakeGuessesUsedView(vm)

@@ -296,7 +296,7 @@ public class AiReviewWindow : Window
                                         new TextBlock
                                         {
                                             Text = item.CategoryDisplay,
-                                            FontSize = 12,
+                                            FontSize = UiUtil.ScaledFontSize(12),
                                             Foreground = item.CategoryBrush,
                                             VerticalAlignment = VerticalAlignment.Center,
                                         },

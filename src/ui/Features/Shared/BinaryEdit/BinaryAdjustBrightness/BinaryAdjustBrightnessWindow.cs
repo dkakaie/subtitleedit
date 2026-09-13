@@ -181,7 +181,7 @@ public class BinaryAdjustBrightnessWindow : Window
             Text = Se.Language.Tools.ImageBasedEdit.BrightnessAdjustmentInfo,
             TextWrapping = Avalonia.Media.TextWrapping.Wrap,
             Margin = new Thickness(0, 20, 0, 0),
-            FontSize = 11,
+            FontSize = UiUtil.ScaledFontSize(11),
             Foreground = Avalonia.Media.Brushes.Gray,
         };
         panel.Children.Add(infoText);

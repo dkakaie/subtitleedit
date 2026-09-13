@@ -572,7 +572,8 @@ public class InitWaveform
         var labelHorizontalZoom = new TextBlock
         {
             HorizontalAlignment = HorizontalAlignment.Center,
-            FontSize = 10,
+            FontSize = UiUtil.ScaledFontSize(10),
+            [UiUtil.DesignFontSizeProperty] = 10,
             Margin = new Thickness(0, -15, 0, 0),
         };
         labelHorizontalZoom.Bind(TextBlock.TextProperty, new Binding(nameof(vm.AudioVisualizer) + "." + nameof(vm.AudioVisualizer.ZoomFactor))
@@ -621,7 +622,8 @@ public class InitWaveform
         var labelVerticalZoom = new TextBlock
         {
             HorizontalAlignment = HorizontalAlignment.Center,
-            FontSize = 10,
+            FontSize = UiUtil.ScaledFontSize(10),
+            [UiUtil.DesignFontSizeProperty] = 10,
             Margin = new Thickness(0, -15, 0, 0),
         };
         labelVerticalZoom.Bind(TextBlock.TextProperty, new Binding(nameof(vm.AudioVisualizer) + "." + nameof(vm.AudioVisualizer.VerticalZoomFactor))
@@ -806,7 +808,8 @@ public class InitWaveform
         {
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(0, 0, 10, 0),
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
+            [UiUtil.DesignFontSizeProperty] = 12,
             MaxHeight = 22,
             MinHeight = 22,
             Padding = new Thickness(2, 2, 0, 2),
@@ -918,7 +921,8 @@ public class InitWaveform
         {
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalContentAlignment = HorizontalAlignment.Center,
-            FontSize = 12,
+            FontSize = UiUtil.ScaledFontSize(12),
+            [UiUtil.DesignFontSizeProperty] = 12,
             MaxHeight = 22,
             MinHeight = 22,
             // The Fluent ComboBox theme forces MinWidth ~64; clear it so the box shrinks to the
