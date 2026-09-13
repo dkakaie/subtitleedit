@@ -14,6 +14,7 @@ public class SeGeneral
     public string Version { get; set; }
     public string Language { get; set; }
     public int LayoutNumber { get; set; } = 0;
+    public int? LayoutMigrationVersion { get; set; }
 
     public string CurrentProfile { get; set; }
     public List<RulesProfile> Profiles { get; set; }

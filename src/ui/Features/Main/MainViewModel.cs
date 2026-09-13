@@ -9150,7 +9150,7 @@ public partial class MainViewModel :
                 WatchUndockedForegroundSteal(window);
             });
 
-            InitLayout.MakeLayout12KeepVideo(MainView!, this);
+            InitLayout.MakeLayoutWithoutVideoKeepVideo(MainView!, this);
             if (Se.Settings.Appearance.RightToLeft && Window != null)
             {
                 // The rebuilt layout starts left to right; re-apply the mode.
