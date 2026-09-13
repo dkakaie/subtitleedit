@@ -1,4 +1,4 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Primitives;
@@ -149,6 +149,7 @@ public static class UiTheme
 
         ApplyMenuScaleStyle(Se.Settings.Appearance.LayoutScale);
         ApplyLayoutScaleToAllWindows();
+        ApplyScaleToExistingMenus(Se.Settings.Appearance.LayoutScale);
     }
 
     public static Action? SystemThemeChangedCallback { get; set; }
@@ -180,6 +181,21 @@ public static class UiTheme
     public const double MaxScale = 2.0;
 
     /// <summary>
+    /// Font scale (#14812): scales text only, leaving layout metrics alone, unlike
+    /// <see cref="ApplyScaleToWindow"/>'s layout transform. Applied through the inherited
+    /// window <see cref="TemplatedControl.FontSize"/>, so controls that set an explicit
+    /// FontSize keep it. Kept to a modest range as fixed-width controls clip at large values.
+    /// </summary>
+    public const double MinFontScale = 0.8;
+    public const double MaxFontScale = 1.5;
+    private const double DefaultFontSize = 14.0;
+
+    public static double FontScale => Math.Clamp(Se.Settings.Appearance.FontScale <= 0 ? 1.0 : Se.Settings.Appearance.FontScale, MinFontScale, MaxFontScale);
+
+    /// <summary>Font size for popup menu/combo items rendered outside the layout transform.</summary>
+    private static double PopupFontSize(double layoutFactor) => DefaultFontSize * layoutFactor * FontScale;
+
+    /// <summary>
     /// Returns the logical content of a window, unwrapping the
     /// <see cref="LayoutTransformControl"/> that <see cref="ApplyScaleToWindow"/>
     /// uses to host scaled content.
@@ -199,6 +215,18 @@ public static class UiTheme
         ApplyTitleBarTheme(window);
 
         var factor = Se.Settings.Appearance.LayoutScale;
+
+        // Font scale rides on FontSize inheritance: every control without an explicit FontSize
+        // picks it up from the window. Clearing back to the theme default at 100% keeps
+        // windows with locally restyled fonts untouched.
+        if (Math.Abs(FontScale - 1.0) < 0.0001)
+        {
+            window.ClearValue(TemplatedControl.FontSizeProperty);
+        }
+        else
+        {
+            window.FontSize = DefaultFontSize * FontScale;
+        }
 
         if (window.Content is LayoutTransformControl ltc)
         {
@@ -298,13 +326,13 @@ public static class UiTheme
 
         // Scale MenuItems in popups/context menus (outside LayoutTransformControl)
         var menuItemStyle = new Style(x => x.OfType<MenuItem>());
-        menuItemStyle.Setters.Add(new Setter(TemplatedControl.FontSizeProperty, 14.0 * factor));
+        menuItemStyle.Setters.Add(new Setter(TemplatedControl.FontSizeProperty, PopupFontSize(factor)));
         menuItemStyle.Setters.Add(new Setter(Layoutable.MinHeightProperty, 32.0 * factor));
         styles.Add(menuItemStyle);
 
         // Reset MenuItems inside LayoutTransformControl (already scaled by transform)
         var ltcMenuItemStyle = new Style(x => x.OfType<LayoutTransformControl>().Descendant().OfType<MenuItem>());
-        ltcMenuItemStyle.Setters.Add(new Setter(TemplatedControl.FontSizeProperty, 14.0));
+        ltcMenuItemStyle.Setters.Add(new Setter(TemplatedControl.FontSizeProperty, DefaultFontSize * FontScale));
         ltcMenuItemStyle.Setters.Add(new Setter(Layoutable.MinHeightProperty, 32.0));
         styles.Add(ltcMenuItemStyle);
 
@@ -312,10 +340,10 @@ public static class UiTheme
         // LayoutTransformControl, so the window scale transform never reaches it (#13010).
         // ComboBoxItems only ever appear inside that popup, so no LTC reset counterpart is
         // needed. Skipped at 100% so windows with locally restyled combos keep their look.
-        if (Math.Abs(factor - 1.0) > 0.0001)
+        if (Math.Abs(factor - 1.0) > 0.0001 || Math.Abs(FontScale - 1.0) > 0.0001)
         {
             var comboBoxItemStyle = new Style(x => x.OfType<ComboBoxItem>());
-            comboBoxItemStyle.Setters.Add(new Setter(TemplatedControl.FontSizeProperty, 14.0 * factor));
+            comboBoxItemStyle.Setters.Add(new Setter(TemplatedControl.FontSizeProperty, PopupFontSize(factor)));
             styles.Add(comboBoxItemStyle);
         }
 
@@ -433,7 +461,7 @@ public static class UiTheme
         {
             if (obj is MenuItem item)
             {
-                item.FontSize = 14.0 * factor;
+                item.FontSize = PopupFontSize(factor);
                 item.MinHeight = 32.0 * factor;
                 ScaleChildMenuItems(item, factor);
             }
@@ -446,7 +474,7 @@ public static class UiTheme
         {
             if (obj is MenuItem item)
             {
-                item.FontSize = 14.0 * factor;
+                item.FontSize = PopupFontSize(factor);
                 item.MinHeight = 32.0 * factor;
                 ScaleMenuItems(item, factor);
             }
@@ -459,7 +487,7 @@ public static class UiTheme
         {
             if (obj is MenuItem item)
             {
-                item.FontSize = 14.0 * factor;
+                item.FontSize = PopupFontSize(factor);
                 item.MinHeight = 32.0 * factor;
                 ScaleMenuItems(item, factor);
             }
